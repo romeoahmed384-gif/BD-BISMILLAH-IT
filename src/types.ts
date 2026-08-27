@@ -8,8 +8,9 @@ export interface CourseModule {
 
 export interface Course {
   id: string;
+  serialNo: string;
   title: string;
-  category: 'all' | 'design' | 'web' | 'marketing' | 'office' | 'multimedia' | 'special';
+  category: 'all' | 'design' | 'web' | 'marketing' | 'office' | 'multimedia' | 'special' | 'language' | 'engineering';
   badge: string;
   duration: string;
   totalClasses: number;

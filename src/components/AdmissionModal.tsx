@@ -248,7 +248,7 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                 >
                   {COURSES_DATA.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {c.title} (অফার ফি: ৳{c.discountFee.toLocaleString()})
+                      {c.serialNo}. {c.title} ({c.duration}) — এককালীন: ৳{c.discountFee.toLocaleString()} (নিয়মিত: ৳{c.regularFee.toLocaleString()})
                     </option>
                   ))}
                 </select>
