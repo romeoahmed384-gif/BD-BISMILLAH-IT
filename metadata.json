@@ -1,0 +1,8 @@
+{
+  "name": "BD Bismillah Computer & IT",
+  "description": "বিডি বিসমিল্লাহ কম্পিউটার এন্ড আইটি - স্কিল ডেভেলপমেন্ট ও ক্যারিয়ার মেকিং সেন্টারের অফিশিয়াল প্ল্যাটফর্ম। প্রফেশনাল আইটি কোর্স, লাইভ প্রজেক্ট, বাংলা এআই চ্যাটবট ও ক্যারিয়ার সাপোর্ট।",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
