@@ -18,7 +18,9 @@ import {
   Table as TableIcon,
   Zap,
   PhoneCall,
-  Check
+  Check,
+  Flame,
+  Megaphone
 } from 'lucide-react';
 import { COURSES_DATA } from '../data/coursesData';
 import { Course } from '../types';
@@ -113,6 +115,64 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
               <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
               কারিগরি শিক্ষাবোর্ড অনুমোদন
             </span>
+          </div>
+        </motion.div>
+
+        {/* Mega News / Discount Highlight Banner: 40% OFF + Board Reg Fee FREE till 10th */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mb-8 p-4 sm:p-6 rounded-3xl bg-gradient-to-r from-rose-950/90 via-red-950/80 to-amber-950/90 border-2 border-rose-500/60 shadow-2xl shadow-rose-950/50 backdrop-blur-md relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative z-10">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-rose-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm animate-pulse">
+                  <Flame className="w-3.5 h-3.5 fill-white" />
+                  বিশেষ অফার সংবাদ
+                </span>
+                <span className="inline-flex items-center gap-1 bg-amber-950/80 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  অফারের শেষ সময়: আগামী ১০ তারিখ পর্যন্ত
+                </span>
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
+                যেকোনো কোর্সে সরাসরি <span className="text-yellow-300 font-extrabold underline decoration-yellow-400 decoration-2">৪০% ডিসকাউন্ট</span> + কারিগরি শিক্ষা <span className="text-emerald-300 font-extrabold">বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি!</span>
+              </h3>
+              
+              <p className="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
+                আমাদের সকল প্রফেশনাল ও ডিপ্লোমা কোর্সে সীমিত সময়ের এই বিশেষ সুযোগ গ্রহণ করুন। ভর্তি হলেই পাবেন অভিজ্ঞ ফ্রিল্যান্সারদের গাইডলাইন, আধুনিক ল্যাব এক্সেস এবং সম্পূর্ণ ফ্রি বাংলাদেশ কারিগরি শিক্ষা বোর্ড পরীক্ষার রেজিস্ট্রেশন।
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap shrink-0">
+              <motion.button
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() => onOpenAdmission()}
+                className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-rose-900/40 border border-rose-400/40 transition-all flex items-center justify-center gap-2"
+              >
+                <span>অফারে ভর্তি আবেদন</span>
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() => {
+                  const text = encodeURIComponent('আসসালামু আলাইকুম, আমি বিডি বিসমিল্লাহ আইটি সেন্টারের যে কোনো কোর্সের ৪০% ছাড় ও ফ্রি বোর্ড রেজিস্ট্রেশন ফি অফার (১০ তারিখ পর্যন্ত) সম্পর্কে জানতে চাই।');
+                  window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
+                }}
+                className="w-full sm:w-auto px-4 py-3 rounded-2xl bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm border border-emerald-500/40 transition-all flex items-center justify-center gap-2"
+              >
+                <span>WhatsApp তথ্য</span>
+              </motion.button>
+            </div>
           </div>
         </motion.div>
 
@@ -302,14 +362,14 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                             </div>
                           </td>
 
-                          {/* Action Buttons */}
+                          {/* Action Buttons with Interactive Glassmorphism */}
                           <td className="py-4 px-4 text-center whitespace-nowrap">
                             <div className="flex items-center justify-center gap-1.5">
                               <motion.button
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.06, y: -1 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => setSelectedCourseForSyllabus(course)}
-                                className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors inline-flex items-center gap-1"
+                                className="px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/90 text-slate-200 text-xs font-semibold border border-slate-700/80 backdrop-blur-md transition-all inline-flex items-center gap-1 shadow-sm"
                                 title="সিলেবাস ও বিষয়সমূহ দেখুন"
                               >
                                 <FileText className="w-3.5 h-3.5 text-slate-400" />
@@ -317,11 +377,12 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                               </motion.button>
 
                               <motion.button
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.06, y: -1 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => onOpenAdmission(course.id)}
-                                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-xs font-bold shadow-md shadow-rose-900/30 transition-all inline-flex items-center gap-1"
+                                className="relative overflow-hidden group/btn px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-xs font-bold shadow-md shadow-rose-900/40 border border-rose-400/30 transition-all inline-flex items-center gap-1"
                               >
+                                <div className="absolute inset-0 w-1/2 bg-white/20 -skew-x-12 -translate-x-full group-hover/btn:translate-x-[300%] transition-transform duration-700 pointer-events-none" />
                                 <span>ভর্তি</span>
                                 <ArrowRight className="w-3 h-3" />
                               </motion.button>
@@ -360,11 +421,12 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                 return (
                   <motion.div
                     key={course.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ delay: idx * 0.04, duration: 0.3 }}
-                    className="bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-rose-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative"
+                    whileHover={{ y: -8, scale: 1.015 }}
+                    transition={{ delay: idx * 0.03, duration: 0.3 }}
+                    className="bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-rose-500/60 hover:shadow-2xl hover:shadow-rose-950/40 transition-all duration-300 flex flex-col justify-between group relative backdrop-blur-md"
                   >
                     <div>
                       {/* Card Thumbnail Image */}
@@ -372,13 +434,13 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                         <img
                           src={course.image}
                           alt={course.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
                         
                         {/* Serial & Badge */}
                         <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                          <span className="bg-slate-950/90 text-white font-mono text-[11px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                          <span className="bg-slate-950/90 text-white font-mono text-[11px] font-bold px-2 py-0.5 rounded-md border border-slate-700 backdrop-blur-sm">
                             {course.serialNo}
                           </span>
                           <span className="bg-rose-600 text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
@@ -454,7 +516,7 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                       </div>
                     </div>
 
-                    {/* Card Bottom Area: Pricing & Actions */}
+                    {/* Card Bottom Area: Pricing & Actions with Glassmorphism */}
                     <div className="px-5 sm:px-6 pb-5 pt-3 border-t border-slate-800/80 bg-slate-950/60 rounded-b-3xl">
                       {/* Fee Section */}
                       <div className="flex items-center justify-between mb-3.5">
@@ -474,26 +536,28 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                         </div>
                       </div>
 
-                      {/* Dual Action Buttons */}
+                      {/* Dual Action Buttons with Interactive Glassmorphism */}
                       <div className="grid grid-cols-2 gap-2">
                         <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          whileHover={{ scale: 1.03, y: -1 }}
+                          whileTap={{ scale: 0.97 }}
                           onClick={() => setSelectedCourseForSyllabus(course)}
-                          className="inline-flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 py-2.5 rounded-xl text-xs font-bold transition-all"
+                          className="inline-flex items-center justify-center gap-1.5 bg-slate-800/85 hover:bg-slate-700/90 text-slate-200 hover:text-white border border-slate-700/80 py-2.5 rounded-xl text-xs font-bold transition-all backdrop-blur-md shadow-sm"
                         >
                           <FileText className="w-3.5 h-3.5 text-slate-400" />
                           <span>সিলেবাস</span>
                         </motion.button>
 
                         <motion.button
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
+                          whileHover={{ scale: 1.04, y: -1 }}
+                          whileTap={{ scale: 0.96 }}
                           onClick={() => onOpenAdmission(course.id)}
-                          className="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white py-2.5 rounded-xl text-xs font-bold shadow-md shadow-rose-900/40 transition-all"
+                          className="relative overflow-hidden group/btn inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-rose-900/40 border border-rose-400/30 transition-all"
                         >
+                          {/* Inner glass sheen sweep */}
+                          <div className="absolute inset-0 w-1/2 bg-white/20 -skew-x-12 -translate-x-full group-hover/btn:translate-x-[300%] transition-transform duration-700 pointer-events-none" />
                           <span>ভর্তি হন</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                         </motion.button>
                       </div>
                     </div>

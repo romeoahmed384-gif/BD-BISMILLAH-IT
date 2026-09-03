@@ -123,13 +123,13 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold px-3 py-0.5 rounded-full mb-2">
+          <div className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full mb-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>৫০% স্কলারশিপ ভর্তি চলছে (খুলনা)</span>
+            <span>🔥 বিশেষ অফার: যেকোনো কোর্সে ৪০% ছাড় + বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি (১০ তারিখ পর্যন্ত)</span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black text-white">
-            অনলাইন কোর্স রেজিস্ট্রেশন ও স্কলারশিপ ফরম
+            অনলাইন কোর্স রেজিস্ট্রেশন ও ভর্তি ফরম
           </h3>
           <p className="text-xs text-slate-400 mt-1">
             বিডি বিসমিল্লাহ কম্পিউটার এন্ড আইটি সেন্টার (খুলনা শাখা)
@@ -255,19 +255,22 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
               </div>
 
               {/* Course Fee Summary Pill */}
-              <div className="bg-slate-950/80 border border-rose-500/30 rounded-2xl p-4 flex items-center justify-between">
+              <div className="bg-slate-950/80 border border-rose-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span className="text-xs text-rose-400 block font-medium">অফার অনুযায়ী প্রদেয় ফি:</span>
+                  <span className="text-xs text-rose-400 block font-medium">অফার অনুযায়ী কোর্স ফি:</span>
                   <div className="flex items-baseline gap-2">
                     <strong className="text-xl font-black text-rose-400 font-['Plus_Jakarta_Sans',sans-serif]">
                       ৳{currentCourse.discountFee.toLocaleString()}
                     </strong>
                     <span className="text-xs text-slate-500 line-through">৳{currentCourse.regularFee.toLocaleString()}</span>
+                    <span className="bg-rose-600/30 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">৪০% অফ</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-[11px] text-slate-400 block">সময়কাল: {currentCourse.duration}</span>
-                  <span className="text-[11px] text-emerald-400 font-bold block">সার্টিফিকেট ও জব সাপোর্ট সহ</span>
+                <div className="sm:text-right space-y-0.5">
+                  <span className="text-[11px] text-emerald-400 font-bold block bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-md">
+                    ✓ বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি!
+                  </span>
+                  <span className="text-[11px] text-slate-400 block">সময়কাল: {currentCourse.duration} • মেয়াদ: ১০ তারিখ পর্যন্ত</span>
                 </div>
               </div>
 

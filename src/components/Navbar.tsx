@@ -14,7 +14,10 @@ import {
   Calendar,
   FileText,
   ChevronRight,
-  Zap
+  Zap,
+  Flame,
+  Megaphone,
+  ArrowRight
 } from 'lucide-react';
 import { 
   FOURTH_BRANCH_WHATSAPP, 
@@ -47,8 +50,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
     window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   const navLinks = [
-    { id: 'courses', href: '#courses', label: 'কোর্সসমূহ', icon: BookOpen, iconColor: 'text-rose-400', badge: '৮টি কোর্স' },
+    { id: 'courses', href: '#courses', label: 'কোর্সসমূহ', icon: BookOpen, iconColor: 'text-rose-400', badge: '১৫টি কোর্স' },
     { id: 'success', href: '#success', label: 'সফলতার গল্প', icon: Award, iconColor: 'text-amber-400', badge: 'রিভিউ' },
     { id: 'events', href: '#events', label: 'ফ্রি সেমিনার', icon: Calendar, iconColor: 'text-sky-400', badge: 'ফ্রি' },
     { id: 'branches', href: '#branches', label: 'ব্রাঞ্চ ও যোগাযোগ', icon: MapPin, iconColor: 'text-emerald-400', badge: '৪টি ক্যাম্পাস' },
@@ -56,6 +69,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
 
   return (
     <header className="sticky top-0 z-40 w-full">
+      {/* 0. Breaking News Highlight: 40% Discount on any course + Board Registration Fees Free until 10th */}
+      <div className="bg-gradient-to-r from-rose-700 via-red-600 to-amber-600 text-white py-2 px-3 sm:px-4 border-b border-rose-500/50 shadow-md relative z-20 overflow-hidden">
+        {/* Shimmer sweep animation */}
+        <motion.div
+          animate={{ x: ['-100%', '250%'] }}
+          transition={{ repeat: Infinity, duration: 4.5, ease: 'linear' }}
+          className="absolute inset-0 w-1/4 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+        />
+
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 relative z-10">
+          <div className="flex items-center gap-2 flex-wrap justify-center md:justify-start text-center md:text-left">
+            <span className="inline-flex items-center gap-1 bg-white text-rose-700 font-black px-2.5 py-0.5 rounded-full text-[11px] shadow-sm tracking-wide shrink-0 animate-pulse">
+              <Flame className="w-3.5 h-3.5 text-rose-600 fill-rose-600" />
+              জরুরি অফার সংবাদ
+            </span>
+            <p className="text-white font-semibold text-xs sm:text-sm leading-tight">
+              আমাদের যে কোনো কোর্সের ওপর চলছে <span className="font-black text-yellow-200 bg-black/20 px-1.5 py-0.5 rounded border border-yellow-300/30">সরাসরি ৪০% ডিসকাউন্ট</span> এবং সাথে <span className="font-black text-emerald-200 bg-emerald-950/70 px-1.5 py-0.5 rounded border border-emerald-400/40">বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি</span>!
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="inline-flex items-center gap-1.5 bg-black/30 text-yellow-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-yellow-400/40 backdrop-blur-xs">
+              <Clock className="w-3 h-3 text-yellow-300 animate-spin" style={{ animationDuration: '9s' }} />
+              <span>অফার চলবে আগামী ১০ তারিখ অবধি</span>
+            </span>
+            <motion.button
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onOpenAdmission()}
+              className="bg-white hover:bg-yellow-50 text-rose-700 font-black text-xs px-3 py-1 rounded-full shadow-sm border border-white/60 transition-all inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>ভর্তি আবেদন</span>
+              <ArrowRight className="w-3 h-3" />
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
       {/* 1. Top Notification & Branch Hotline Bar with Micro-animations */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}
@@ -79,6 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
             <motion.span 
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.96 }}
+              onClick={() => onOpenAdmission()}
               className="inline-flex items-center gap-1.5 text-amber-300 font-semibold bg-gradient-to-r from-amber-950/80 to-yellow-950/70 px-3 py-1 rounded-full border border-amber-500/40 shadow-sm cursor-pointer"
             >
               <motion.div
@@ -87,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               </motion.div>
-              <span>৫০% স্পেশাল স্কলারশিপ অফার চলছে</span>
+              <span>৪০% বিশেষ ছাড় + ফ্রি বোর্ড রেজিস্ট্রেশন ফি (১০ তারিখ পর্যন্ত)</span>
             </motion.span>
 
             {/* Campus Info Badge */}
@@ -211,11 +263,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
                 <motion.a
                   key={item.id}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   onHoverStart={() => setHoveredNav(item.id)}
                   onHoverEnd={() => setHoveredNav(null)}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative px-3.5 py-2 rounded-xl flex items-center gap-2 text-slate-200 hover:text-white transition-colors group"
+                  className="relative px-3.5 py-2 rounded-xl flex items-center gap-2 text-slate-200 hover:text-white transition-colors group cursor-pointer"
                 >
                   {/* Subtle active / hover pill glow background */}
                   {isHovered && (
@@ -381,8 +434,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05, duration: 0.2 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 text-slate-200 hover:bg-slate-800 hover:text-white border border-slate-800 transition-colors group"
+                      onClick={(e) => {
+                        setMobileMenuOpen(false);
+                        handleNavClick(e, item.href);
+                      }}
+                      className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 text-slate-200 hover:bg-slate-800 hover:text-white border border-slate-800 transition-colors group cursor-pointer"
                     >
                       <div className="flex items-center gap-2">
                         <Icon className={`w-4 h-4 ${item.iconColor} group-hover:scale-110 transition-transform`} />
