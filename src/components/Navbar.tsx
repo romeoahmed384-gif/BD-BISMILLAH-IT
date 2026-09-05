@@ -17,7 +17,9 @@ import {
   Zap,
   Flame,
   Megaphone,
-  ArrowRight
+  ArrowRight,
+  User,
+  LogOut
 } from 'lucide-react';
 import { 
   FOURTH_BRANCH_WHATSAPP, 
@@ -30,9 +32,19 @@ interface NavbarProps {
   onOpenAdmission: (courseId?: string) => void;
   onOpenChat: () => void;
   onOpenGoogleForm?: () => void;
+  onOpenAuth?: () => void;
+  userProfile?: { name: string; email: string } | null;
+  onLogout?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onOpenGoogleForm }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  onOpenAdmission, 
+  onOpenChat, 
+  onOpenGoogleForm,
+  onOpenAuth,
+  userProfile,
+  onLogout
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
@@ -126,12 +138,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
           {/* Left Info Badges with lively micro-animations */}
           <div className="flex items-center gap-3 flex-wrap justify-center md:justify-start">
             
-            {/* Offer Chip with pulsing star & breathing glow */}
+            {/* BTEB Govt Approval Chip */}
             <motion.span 
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.96 }}
-              onClick={() => onOpenAdmission()}
-              className="inline-flex items-center gap-1.5 text-amber-300 font-semibold bg-gradient-to-r from-amber-950/80 to-yellow-950/70 px-3 py-1 rounded-full border border-amber-500/40 shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-amber-300 font-semibold bg-gradient-to-r from-amber-950/80 to-yellow-950/70 px-3 py-1 rounded-full border border-amber-500/40 shadow-sm cursor-default"
             >
               <motion.div
                 animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
@@ -139,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               </motion.div>
-              <span>৪০% বিশেষ ছাড় + ফ্রি বোর্ড রেজিস্ট্রেশন ফি (১০ তারিখ পর্যন্ত)</span>
+              <span>বাংলাদেশ কারিগরি শিক্ষা বোর্ড অনুমোদিত প্রতিষ্ঠান (কোড: ৬২০৭৪)</span>
             </motion.span>
 
             {/* Campus Info Badge */}
@@ -305,6 +316,35 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
           {/* 4. Right Action CTAs with Rich Micro-Interactions */}
           <div className="hidden sm:flex items-center gap-2.5">
             
+            {/* Login / Student Portal Action */}
+            {userProfile ? (
+              <div className="flex items-center gap-2 bg-slate-800/90 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs">
+                <div className="w-6 h-6 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center text-[11px]">
+                  {userProfile.name.charAt(0)}
+                </div>
+                <span className="font-semibold text-white max-w-[90px] truncate">{userProfile.name}</span>
+                {onLogout && (
+                  <button
+                    onClick={onLogout}
+                    className="p-1 text-slate-400 hover:text-rose-400 rounded transition-colors"
+                    title="লগআউট করুন"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={onOpenAuth}
+                className="inline-flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:text-white"
+              >
+                <User className="w-4 h-4 text-rose-400" />
+                <span>লগইন</span>
+              </motion.button>
+            )}
+
             {/* Google Form Button with Gentle Lift */}
             {onOpenGoogleForm && (
               <motion.button
@@ -457,6 +497,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmission, onOpenChat, onO
                 transition={{ delay: 0.2, duration: 0.2 }}
                 className="pt-2 flex flex-col gap-2"
               >
+                {/* Mobile Auth Button */}
+                {userProfile ? (
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center text-xs">
+                        {userProfile.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-bold text-white">{userProfile.name}</div>
+                        <div className="text-[11px] text-slate-400">{userProfile.email}</div>
+                      </div>
+                    </div>
+                    {onLogout && (
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onLogout();
+                        }}
+                        className="px-3 py-1.5 rounded-lg bg-slate-800 text-rose-400 font-bold hover:bg-slate-700"
+                      >
+                        লগআউট
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenAuth?.();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl font-semibold text-sm border border-slate-700 shadow-sm"
+                  >
+                    <User className="w-4 h-4 text-rose-400" />
+                    <span>স্টুডেন্ট লগইন / রেজিস্ট্রেশন</span>
+                  </motion.button>
+                )}
+
                 {onOpenGoogleForm && (
                   <motion.button
                     whileTap={{ scale: 0.97 }}

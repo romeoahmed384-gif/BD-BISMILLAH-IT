@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -12,6 +12,8 @@ import { Footer } from './components/Footer';
 import { ChatbotModal } from './components/ChatbotModal';
 import { AdmissionModal } from './components/AdmissionModal';
 import { GoogleFormManagerModal } from './components/GoogleFormManagerModal';
+import { AuthModal } from './components/AuthModal';
+import { FloatingWhatsAppWidget } from './components/FloatingWhatsAppWidget';
 
 // Reusable Section Animation Wrapper for smooth scroll reveal
 const SectionScrollWrapper: React.FC<{ children: React.ReactNode; id?: string }> = ({ children, id }) => (
@@ -30,8 +32,23 @@ export default function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
   const [isGoogleFormModalOpen, setIsGoogleFormModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [admissionCourseId, setAdmissionCourseId] = useState<string | undefined>(undefined);
   const [selectedCourseCategory, setSelectedCourseCategory] = useState<string>('all');
+  
+  // User profile state from localStorage
+  const [userProfile, setUserProfile] = useState<{ name: string; email: string } | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('bdbcit_user_profile');
+      if (stored) {
+        setUserProfile(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error('Error loading stored user:', e);
+    }
+  }, []);
 
   const handleOpenAdmission = (courseId?: string) => {
     setAdmissionCourseId(courseId);
@@ -46,27 +63,36 @@ export default function App() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('bdbcit_user_profile');
+    setUserProfile(null);
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-['Hind_Siliguri',sans-serif] selection:bg-rose-500 selection:text-white">
-      {/* 1. Header & Navigation */}
+      
+      {/* 1. Header & Navigation (Contains Breaking News Offer Bar & Hotlines) */}
       <Navbar
         onOpenChat={() => setIsChatOpen(true)}
         onOpenAdmission={() => handleOpenAdmission()}
         onOpenGoogleForm={() => setIsGoogleFormModalOpen(true)}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
+        userProfile={userProfile}
+        onLogout={handleLogout}
       />
 
-      {/* 2. Main Hero Showcase Section with 3D Model & Interactive Canvas Particles */}
+      {/* 3. Main Hero Showcase Section with 3D Model & Interactive Canvas Particles */}
       <Hero
         onOpenAdmission={() => handleOpenAdmission()}
         onOpenChat={() => setIsChatOpen(true)}
       />
 
-      {/* 3. Skill & Service Categories (গ্রাফিক্স, ওয়েব, মার্কেটিং, অফিস ইত্যাদি) */}
+      {/* 4. Skill & Service Categories (গ্রাফিক্স, ওয়েব, মার্কেটিং, অফিস ইত্যাদি) */}
       <SectionScrollWrapper id="services">
         <ServiceHighlights onSelectCategory={handleCategorySelect} />
       </SectionScrollWrapper>
 
-      {/* 4. Comprehensive Course Catalog & Syllabus (কোর্স সেকশন) */}
+      {/* 5. Comprehensive Course Catalog & Syllabus (কোর্স সেকশন) */}
       <SectionScrollWrapper id="courses">
         <CourseCatalog
           selectedCategory={selectedCourseCategory}
@@ -75,22 +101,22 @@ export default function App() {
         />
       </SectionScrollWrapper>
 
-      {/* 5. Success Stories & Student Testimonials */}
+      {/* 6. Success Stories & Student Testimonials & Social Proof */}
       <SectionScrollWrapper id="success">
         <SuccessStories />
       </SectionScrollWrapper>
 
-      {/* 6. Dedicated 4th Branch WhatsApp Section & Persistent Widget */}
+      {/* 7. Dedicated 4th Branch WhatsApp Section & Persistent Widget */}
       <SectionScrollWrapper id="whatsapp">
         <WhatsAppConnector />
       </SectionScrollWrapper>
 
-      {/* 7. Events, Free Seminars & Tech Blog */}
+      {/* 8. Events, Free Seminars & Tech Blog */}
       <SectionScrollWrapper id="events">
         <EventsAndBlog />
       </SectionScrollWrapper>
 
-      {/* 8. Contact Info, 4 Branches, Google Form & Maps */}
+      {/* 9. Contact Info, 4 Branches, Google Form & Maps */}
       <SectionScrollWrapper id="branches">
         <ContactAndBranches
           onOpenGoogleFormModal={() => setIsGoogleFormModalOpen(true)}
@@ -98,7 +124,7 @@ export default function App() {
         />
       </SectionScrollWrapper>
 
-      {/* 9. Comprehensive Footer */}
+      {/* 10. Comprehensive Footer */}
       <SectionScrollWrapper>
         <Footer
           onOpenAdmission={() => handleOpenAdmission()}
@@ -106,21 +132,32 @@ export default function App() {
         />
       </SectionScrollWrapper>
 
-      {/* 10. Interactive Bangla AI Chatbot Modal */}
+      {/* 11. Floating WhatsApp Chat Widget (Bottom-Left) */}
+      <FloatingWhatsAppWidget />
+
+      {/* 12. Smart AI Chatbot Component with Floating Trigger Icon (Bottom-Right) */}
       <ChatbotModal
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
+        onToggle={() => setIsChatOpen(!isChatOpen)}
         onOpenAdmission={handleOpenAdmission}
       />
 
-      {/* 11. Online Admission & Seat Booking Modal */}
+      {/* 13. Online Admission & Seat Booking Modal */}
       <AdmissionModal
         isOpen={isAdmissionOpen}
         onClose={() => setIsAdmissionOpen(false)}
         initialCourseId={admissionCourseId}
       />
 
-      {/* 12. Google Forms Student Manager Modal */}
+      {/* 14. Student Authentication / Login & Sign Up Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccessLogin={(user) => setUserProfile(user)}
+      />
+
+      {/* 15. Google Forms Student Manager Modal */}
       <GoogleFormManagerModal
         isOpen={isGoogleFormModalOpen}
         onClose={() => setIsGoogleFormModalOpen(false)}
@@ -128,5 +165,3 @@ export default function App() {
     </div>
   );
 }
-
-
