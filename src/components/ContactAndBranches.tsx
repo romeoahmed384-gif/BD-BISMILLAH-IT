@@ -20,7 +20,8 @@ import {
   Share2,
   ArrowRight,
   ShieldCheck,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -35,6 +36,7 @@ import {
   OFFICIAL_GOOGLE_FORM_URL
 } from '../data/branchesData';
 import { Branch } from '../types';
+import { sendRegistrationEmail } from '../services/emailService';
 
 interface ContactAndBranchesProps {
   onOpenGoogleFormModal?: () => void;
@@ -60,7 +62,10 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
   const [contactEmail, setContactEmail] = useState('');
   const [contactCourse, setContactCourse] = useState('বেসিক কম্পিউটার অ্যাপ্লিকেশন ও অফিস ম্যানেজমেন্ট');
   const [contactMessage, setContactMessage] = useState('');
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [messageError, setMessageError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedInfo, setSubmittedInfo] = useState<{ name: string; phone: string; course: string; branch: string } | null>(null);
 
   const googleFormSectionRef = useRef<HTMLDivElement>(null);
 
@@ -98,10 +103,46 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
     setIframeKey(prev => prev + 1);
   };
 
-  const handleSubmitQuickMessage = (e: React.FormEvent) => {
+  const handleSubmitQuickMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactName || !contactPhone) return;
-    setSubmitted(true);
+
+    setIsSendingMessage(true);
+    setMessageError(null);
+
+    const branchName = BRANCHES_DATA.find(b => b.id === selectedBranchId)?.name || '৪র্থ ক্যাম্পাস (বয়রা মডেল)';
+    const info = {
+      name: contactName,
+      phone: contactPhone,
+      course: contactCourse,
+      branch: branchName
+    };
+
+    try {
+      // Send email via EmailJS directly to user's Gmail
+      await sendRegistrationEmail({
+        name: contactName,
+        phone: contactPhone,
+        email: contactEmail,
+        course: contactCourse,
+        branch: branchName,
+        message: contactMessage || 'ক্যারিয়ার কাউন্সেলিং ও ভর্তি সংক্রান্ত তথ্য জানার জন্য বার্তা।'
+      });
+
+      setSubmittedInfo(info);
+      setSubmitted(true);
+
+      // Clear the form inputs after successful submission
+      setContactName('');
+      setContactPhone('');
+      setContactEmail('');
+      setContactMessage('');
+    } catch (err) {
+      console.error('EmailJS Error in Quick Message Form:', err);
+      setMessageError('বার্তা পাঠাতে সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন অথবা আমাদের সরাসরি কল / WhatsApp করুন।');
+    } finally {
+      setIsSendingMessage(false);
+    }
   };
 
   const openWhatsAppBranch = () => {
@@ -610,12 +651,34 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
                       ></textarea>
                     </div>
 
+                    {messageError && (
+                      <div className="bg-rose-950/80 border border-rose-500/50 rounded-xl p-3 text-xs text-rose-200 flex items-start gap-2.5">
+                        <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="font-semibold">{messageError}</p>
+                          <p className="text-[11px] text-rose-300/80 mt-1">
+                            সরাসরি কল করতে পারেন: <strong className="text-white font-mono">{FOURTH_BRANCH_PHONE}</strong>
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-950/50 transition-all hover:scale-[1.01]"
+                      disabled={isSendingMessage}
+                      className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-950/50 transition-all hover:scale-[1.01]"
                     >
-                      <Send className="w-4 h-4" />
-                      <span>বার্তা পাঠান (ফ্রি কাউন্সেলিং)</span>
+                      {isSendingMessage ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>ইমেইলে পাঠানো হচ্ছে...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>বার্তা পাঠান (ফ্রি কাউন্সেলিং ও রেজিস্ট্রেশন)</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 ) : (
@@ -623,22 +686,33 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
                     <div className="w-14 h-14 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-950/50">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
+                    
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Registration Successful!</span>
+                    </div>
+
                     <h4 className="text-lg font-bold text-white">
-                      ধন্যবাদ {contactName}! আপনার বার্তা গৃহীত হয়েছে
+                      ধন্যবাদ {submittedInfo?.name || 'শিক্ষার্থী'}! আপনার রেজিস্ট্রেশন ও বার্তা সফলভাবে গ্রহণ করা হয়েছে
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
-                      আমাদের সিনিয়র কাউন্সেলর আপনার মোবাইল নম্বরে (<strong className="text-emerald-300">{contactPhone}</strong>) খুব শীঘ্রই যোগাযোগ করবেন।
+                    <p className="text-xs sm:text-sm text-emerald-300 font-medium max-w-md mx-auto">
+                      Registration Successful! We will contact you soon. (আমাদের টিম খুব শীঘ্রই আপনার সাথে যোগাযোগ করবে)
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed max-w-md mx-auto">
+                      আমাদের সিনিয়র কাউন্সেলর আপনার মোবাইল নম্বরে (<strong className="text-emerald-300 font-mono">{submittedInfo?.phone}</strong>) কল বা এসএমএসের মাধ্যমে বিস্তারিত জানিয়ে দেবেন।
                     </p>
                     <button
                       onClick={() => {
                         setSubmitted(false);
+                        setSubmittedInfo(null);
                         setContactName('');
                         setContactPhone('');
+                        setContactEmail('');
                         setContactMessage('');
                       }}
-                      className="text-xs text-rose-400 font-bold underline cursor-pointer"
+                      className="inline-block text-xs text-rose-400 hover:text-rose-300 font-bold underline cursor-pointer pt-2"
                     >
-                      আরেকটি বার্তা পাঠান
+                      আরেকটি বার্তা বা রেজিস্ট্রেশন পাঠান
                     </button>
                   </div>
                 )}

@@ -14,7 +14,11 @@ import {
   Download,
   Check,
   ExternalLink,
-  Copy
+  Copy,
+  AlertCircle,
+  Loader2,
+  Mail,
+  Send
 } from 'lucide-react';
 import { COURSES_DATA } from '../data/coursesData';
 import { 
@@ -28,6 +32,7 @@ import {
   OFFICIAL_GOOGLE_FORM_URL
 } from '../data/branchesData';
 import { googleFormsService } from '../services/googleFormsService';
+import { sendRegistrationEmail } from '../services/emailService';
 import confetti from 'canvas-confetti';
 
 interface AdmissionModalProps {
@@ -52,9 +57,23 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [studentMessage, setStudentMessage] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'bKash' | 'Nagad' | 'Rocket' | 'BranchCash'>('bKash');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [generatedRoll, setGeneratedRoll] = useState('');
+  const [submittedSummary, setSubmittedSummary] = useState<{
+    name: string;
+    phone: string;
+    email: string;
+    courseTitle: string;
+    discountFee: number;
+    branchName: string;
+    batchMode: string;
+    shiftPreference: string;
+    roll: string;
+  } | null>(null);
   const [googleFormUrl, setGoogleFormUrl] = useState(OFFICIAL_GOOGLE_FORM_URL);
   const [copiedFormLink, setCopiedFormLink] = useState(false);
 
@@ -80,32 +99,90 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
 
   const currentCourse = COURSES_DATA.find(c => c.id === selectedCourseId) || COURSES_DATA[0];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !phone) return;
 
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
     const randomRoll = `BDIT-KHL-${Math.floor(10000 + Math.random() * 90000)}`;
-    setGeneratedRoll(randomRoll);
-    setIsSuccess(true);
+    const selectedBranch = BRANCHES_DATA.find(b => b.id === preferredBranchId);
+    const branchName = selectedBranch?.name || '৪র্থ ক্যাম্পাস (বয়রা মডেল)';
+
+    const summary = {
+      name: fullName,
+      phone: phone,
+      email: email,
+      courseTitle: currentCourse.title,
+      discountFee: currentCourse.discountFee,
+      branchName: branchName,
+      batchMode: batchMode,
+      shiftPreference: shiftPreference,
+      roll: randomRoll,
+    };
 
     try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 }
+      // 1. Send all registration fields to Gmail via EmailJS
+      await sendRegistrationEmail({
+        name: fullName,
+        phone: phone,
+        email: email,
+        course: currentCourse.title,
+        branch: branchName,
+        message: studentMessage,
+        shift: shiftPreference,
+        batchMode: batchMode,
+        paymentMethod: paymentMethod,
+        trackingRoll: randomRoll,
+        address: address,
       });
-    } catch {
-      // safe fallback
+
+      // 2. Save summary for success screen before clearing
+      setSubmittedSummary(summary);
+      setGeneratedRoll(randomRoll);
+      setIsSuccess(true);
+
+      // 3. Clear the form inputs after successful submission
+      setFullName('');
+      setPhone('');
+      setEmail('');
+      setAddress('');
+      setStudentMessage('');
+
+      try {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch {
+        // safe fallback
+      }
+    } catch (err: any) {
+      console.error('EmailJS Submission Error:', err);
+      // Even if email service faces network issue, provide clear error message and options
+      setErrorMessage(
+        'ইমেইলে আবেদন পাঠাতে সাময়িক সমস্যা হয়েছে। আপনি অনুগ্রহ করে পুনরায় চেষ্টা করুন অথবা সরাসরি আমাদের WhatsApp নম্বরে যোগাযোগ করুন।'
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const openWhatsAppConfirmation = () => {
-    const selectedBranchName = BRANCHES_DATA.find(b => b.id === preferredBranchId)?.name || '৪র্থ ব্রাঞ্চ';
-    const text = encodeURIComponent(`আসসালামু আলাইকুম, আমি ${fullName}। আমি "${currentCourse.title}" কোর্সে অনলাইন রেজিস্ট্রেশন করেছি। 
-এডমিশন আইডি: ${generatedRoll}
-ব্রাঞ্চ: ${selectedBranchName}
-ফোন: ${phone}
-শিফট: ${shiftPreference}`);
+    const studentName = submittedSummary?.name || fullName || 'শিক্ষার্থী';
+    const studentCourse = submittedSummary?.courseTitle || currentCourse.title;
+    const rollId = submittedSummary?.roll || generatedRoll;
+    const branch = submittedSummary?.branchName || '৪র্থ ব্রাঞ্চ';
+    const studentPhone = submittedSummary?.phone || phone;
+    const shift = submittedSummary?.shiftPreference || shiftPreference;
+
+    const text = encodeURIComponent(`আসসালামু আলাইকুম, আমি ${studentName}। আমি "${studentCourse}" কোর্সে অনলাইন রেজিস্ট্রেশন করেছি। 
+এডমিশন আইডি: ${rollId}
+ব্রাঞ্চ: ${branch}
+ফোন: ${studentPhone}
+শিফট: ${shift}`);
     window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
   };
 
@@ -387,6 +464,20 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                 </div>
               </div>
 
+              {/* Optional Message Field */}
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  বার্তা বা কোনো বিশেষ প্রশ্ন (Message / Notes - ঐচ্ছিক):
+                </label>
+                <textarea
+                  rows={2}
+                  value={studentMessage}
+                  onChange={(e) => setStudentMessage(e.target.value)}
+                  placeholder="ভর্তি, ল্যাব সিট বা সময়সূচি সংক্রান্ত কোনো প্রশ্ন থাকলে লিখুন..."
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-rose-500"
+                ></textarea>
+              </div>
+
               {/* Payment Method Selector */}
               <div>
                 <label className="block text-xs font-bold text-slate-300 mb-1">পেমেন্ট মেথড নির্বাচন করুন:</label>
@@ -416,11 +507,35 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                 </p>
               </div>
 
+              {/* Error Alert Box */}
+              {errorMessage && (
+                <div className="bg-rose-950/80 border border-rose-500/50 rounded-xl p-3 text-xs text-rose-200 flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="font-semibold">{errorMessage}</p>
+                    <p className="text-[11px] text-rose-300/80 mt-1">
+                      হটলাইনে কল করুন: <strong className="text-white font-mono">{FOURTH_BRANCH_PHONE}</strong> অথবা WhatsApp এ যোগাযোগ করুন।
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white py-3.5 rounded-xl text-sm font-bold shadow-lg shadow-rose-950/50 transition-all hover:scale-[1.01]"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold shadow-lg shadow-rose-950/50 transition-all flex items-center justify-center gap-2"
               >
-                আবেদন জমা দিন ও স্লিপ নিশ্চিত করুন
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <span>জমা হচ্ছে ও ইমেইল পাঠানো হচ্ছে...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>আবেদন জমা দিন ও স্লিপ নিশ্চিত করুন</span>
+                  </>
+                )}
               </button>
             </form>
           ) : (
@@ -430,51 +545,75 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
-              <h4 className="text-xl font-black text-white">
-                অভিনন্দন {fullName}! আপনার কোর্স রেজিস্ট্রেশন সফল হয়েছে
-              </h4>
+              {/* Prominent Success Message */}
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Registration Successful!</span>
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-white">
+                  রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে!
+                </h4>
+                <p className="text-xs sm:text-sm text-emerald-400 font-medium">
+                  We will contact you soon. (আমাদের টিম খুব শীঘ্রই আপনার সাথে যোগাযোগ করবে)
+                </p>
+              </div>
 
               <div className="bg-slate-950 border border-emerald-500/40 rounded-2xl p-5 text-left text-xs sm:text-sm space-y-2 max-w-lg mx-auto shadow-lg">
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">রেজিস্ট্রেশন ট্র্যাকিং আইডি:</span>
-                  <strong className="text-rose-400 font-mono text-base">{generatedRoll}</strong>
+                  <strong className="text-rose-400 font-mono text-base">{submittedSummary?.roll || generatedRoll}</strong>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-800">
+                  <span className="text-slate-400">শিক্ষার্থীর নাম:</span>
+                  <strong className="text-white">{submittedSummary?.name}</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">কোর্সের নাম:</span>
-                  <strong className="text-white">{currentCourse.title}</strong>
+                  <strong className="text-white">{submittedSummary?.courseTitle}</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">কোর্স ফি:</span>
-                  <strong className="text-emerald-400 font-bold">৳{currentCourse.discountFee.toLocaleString()} (৫০% স্পেশাল স্কলারশিপ)</strong>
+                  <strong className="text-emerald-400 font-bold">৳{submittedSummary?.discountFee?.toLocaleString()} (৪০% বিশেষ ডিসকাউন্ট)</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">নির্বাচিত ক্যাম্পাস:</span>
-                  <strong className="text-slate-200">{BRANCHES_DATA.find(b => b.id === preferredBranchId)?.name}</strong>
+                  <strong className="text-slate-200">{submittedSummary?.branchName}</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">ক্লাস মাধ্যম ও শিফট:</span>
-                  <strong className="text-slate-200">{batchMode} • {shiftPreference}</strong>
+                  <strong className="text-slate-200">{submittedSummary?.batchMode} • {submittedSummary?.shiftPreference}</strong>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-400">মোবাইল নম্বর:</span>
-                  <strong className="text-slate-200">{phone}</strong>
+                  <strong className="text-slate-200 font-mono">{submittedSummary?.phone}</strong>
                 </div>
               </div>
 
               <div className="p-3 bg-emerald-950/60 rounded-xl border border-emerald-500/30 text-xs text-emerald-300 max-w-lg mx-auto">
-                আমাদের ভর্তি টিম আপনার মোবাইলে এসএমএস বা কল করে ল্যাব সিট ও ব্যাচ ওরিয়েন্টেশনের তারিখ জানিয়ে দেবে।
+                তথ্যগুলো সরাসরি আমাদের ইমেইল ও ডাটাবেজে পাঠানো হয়েছে। আমাদের সিনিয়র কাউন্সেলর আপনার নম্বরে এসএমএস বা কলের মাধ্যমে ল্যাব সিট ও ব্যাচ ওরিয়েন্টেশনের তারিখ জানিয়ে দেবেন।
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                 <button
                   onClick={openWhatsAppConfirmation}
-                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-colors"
+                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-colors flex items-center justify-center gap-1.5"
                 >
-                  ৪র্থ ব্রাঞ্চ WhatsApp এ কনফার্ম করুন ({FOURTH_BRANCH_WHATSAPP_DISPLAY})
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>৪র্থ ব্রাঞ্চ WhatsApp এ বার্তা দিন</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setIsSuccess(false);
+                    setSubmittedSummary(null);
+                  }}
+                  className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-colors"
+                >
+                  নতুন আরেকটি আবেদন
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold"
+                  className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold border border-slate-700"
                 >
                   সমাপ্ত করুন
                 </button>
