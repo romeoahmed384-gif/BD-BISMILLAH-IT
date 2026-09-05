@@ -11,7 +11,6 @@ import { ContactAndBranches } from './components/ContactAndBranches';
 import { Footer } from './components/Footer';
 import { ChatbotModal } from './components/ChatbotModal';
 import { AdmissionModal } from './components/AdmissionModal';
-import { GoogleFormManagerModal } from './components/GoogleFormManagerModal';
 import { AuthModal } from './components/AuthModal';
 import { FloatingWhatsAppWidget } from './components/FloatingWhatsAppWidget';
 
@@ -31,7 +30,6 @@ const SectionScrollWrapper: React.FC<{ children: React.ReactNode; id?: string }>
 export default function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
-  const [isGoogleFormModalOpen, setIsGoogleFormModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [admissionCourseId, setAdmissionCourseId] = useState<string | undefined>(undefined);
   const [selectedCourseCategory, setSelectedCourseCategory] = useState<string>('all');
@@ -75,7 +73,6 @@ export default function App() {
       <Navbar
         onOpenChat={() => setIsChatOpen(true)}
         onOpenAdmission={() => handleOpenAdmission()}
-        onOpenGoogleForm={() => setIsGoogleFormModalOpen(true)}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         userProfile={userProfile}
         onLogout={handleLogout}
@@ -116,10 +113,9 @@ export default function App() {
         <EventsAndBlog />
       </SectionScrollWrapper>
 
-      {/* 9. Contact Info, 4 Branches, Google Form & Maps */}
+      {/* 9. Contact Info, 4 Branches & Maps */}
       <SectionScrollWrapper id="branches">
         <ContactAndBranches
-          onOpenGoogleFormModal={() => setIsGoogleFormModalOpen(true)}
           onOpenAdmission={() => handleOpenAdmission()}
         />
       </SectionScrollWrapper>
@@ -155,12 +151,6 @@ export default function App() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         onSuccessLogin={(user) => setUserProfile(user)}
-      />
-
-      {/* 15. Google Forms Student Manager Modal */}
-      <GoogleFormManagerModal
-        isOpen={isGoogleFormModalOpen}
-        onClose={() => setIsGoogleFormModalOpen(false)}
       />
     </div>
   );

@@ -28,10 +28,8 @@ import {
   FOURTH_BRANCH_WHATSAPP_DISPLAY,
   EIGHTH_BRANCH_PHONE,
   MAIN_BRANCH_PHONE,
-  FACEBOOK_PAGE_URL,
-  OFFICIAL_GOOGLE_FORM_URL
+  FACEBOOK_PAGE_URL
 } from '../data/branchesData';
-import { googleFormsService } from '../services/googleFormsService';
 import { sendRegistrationEmail } from '../services/emailService';
 import confetti from 'canvas-confetti';
 
@@ -49,7 +47,6 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
   const [selectedCourseId, setSelectedCourseId] = useState(
     initialCourseId || COURSES_DATA[0].id
   );
-  const [activeTab, setActiveTab] = useState<'instant' | 'google_form'>('instant');
   const [preferredBranchId, setPreferredBranchId] = useState(8); // Default to 8th branch (Boyra Model)
   const [batchMode, setBatchMode] = useState<'অফলাইন ল্যাব ব্যাচ' | 'অনলাইন লাইভ ব্যাচ'>('অফলাইন ল্যাব ব্যাচ');
   const [shiftPreference, setShiftPreference] = useState('সকাল শিফট (১০:০০ - ০১:০০)');
@@ -74,26 +71,6 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
     shiftPreference: string;
     roll: string;
   } | null>(null);
-  const [googleFormUrl, setGoogleFormUrl] = useState(OFFICIAL_GOOGLE_FORM_URL);
-  const [copiedFormLink, setCopiedFormLink] = useState(false);
-
-  useEffect(() => {
-    const cached = googleFormsService.getCachedForm();
-    const custom = localStorage.getItem('bdbcit_custom_google_form_url');
-    if (custom) {
-      setGoogleFormUrl(custom);
-    } else if (cached?.responderUri) {
-      setGoogleFormUrl(cached.responderUri);
-    } else {
-      setGoogleFormUrl(OFFICIAL_GOOGLE_FORM_URL);
-    }
-  }, [isOpen]);
-
-  const handleCopyGoogleFormLink = () => {
-    navigator.clipboard.writeText(googleFormUrl);
-    setCopiedFormLink(true);
-    setTimeout(() => setCopiedFormLink(false), 2000);
-  };
 
   if (!isOpen) return null;
 
@@ -215,102 +192,7 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-5 flex-1 text-slate-200">
-          {/* Tab Switcher: Website Instant Admission Form vs Google Form */}
-          <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
-            <button
-              type="button"
-              onClick={() => setActiveTab('instant')}
-              className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                activeTab === 'instant'
-                  ? 'bg-rose-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>ওয়েবসাইট সরাসরি রেজিস্ট্রেশন</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('google_form')}
-              className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                activeTab === 'google_form'
-                  ? 'bg-emerald-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>অফিশিয়াল গুগল ফরম (Google Form)</span>
-            </button>
-          </div>
-
-          {activeTab === 'google_form' ? (
-            <div className="bg-slate-950 border border-emerald-500/40 rounded-2xl p-5 space-y-4 animate-in fade-in">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shrink-0">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">
-                    বিডি বিসমিল্লাহ আইটি সেন্টার - অফিশিয়াল গুগল ভর্তি ফরম
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    গুগল ফর্মের মাধ্যমে সরাসরি তথ্য সাবমিট করুন। সকল তথ্য গুগল ড্রাইভে ও স্প্রেডশিটে সুরক্ষিত থাকবে।
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-slate-900/90 rounded-xl p-3 border border-slate-800 text-xs space-y-1.5 text-slate-300">
-                <div className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-1">
-                  গুগল ফরমে যা যা তথ্য সংরক্ষিত হবে:
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">
-                  <div>✓ শিক্ষার্থীর নাম ও ফোন/WhatsApp নম্বর</div>
-                  <div>✓ কাঙ্ক্ষিত কোর্স ও ৫০% ছাড়ের ফি</div>
-                  <div>✓ খুলনার ৪টি ক্যাম্পাসের ব্রাঞ্চ পছন্দ</div>
-                  <div>✓ সকাল ১০:০০ - রাত ৮:০০ শিফট পছন্দ</div>
-                  <div>✓ ক্লাসের মাধ্যম (অফলাইন/অনলাইন)</div>
-                  <div>✓ পেমেন্ট মেথড (বিকাশ/নগদ/ব্রাঞ্চ)</div>
-                </div>
-              </div>
-
-              {/* Shareable Link Box */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300">
-                  গুগল ভর্তি ফরমের সরাসরি লিংক (Google Form Link):
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    readOnly
-                    value={googleFormUrl}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-emerald-300 select-all"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleCopyGoogleFormLink}
-                    className="bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 border border-slate-700"
-                  >
-                    {copiedFormLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copiedFormLink ? 'কপি হয়েছে' : 'কপি'}</span>
-                  </button>
-                  <a
-                    href={googleFormUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors shadow-md"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    <span>গুগল ফরম খুলুন</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400 border-t border-slate-800/80">
-                <span>প্রয়োজনে সরাসরি কল: <strong className="text-sky-300 font-mono">{EIGHTH_BRANCH_PHONE}</strong></span>
-                <span>WhatsApp: <strong className="text-emerald-400 font-mono">{FOURTH_BRANCH_WHATSAPP_DISPLAY}</strong></span>
-              </div>
-            </div>
-          ) : !isSuccess ? (
+          {!isSuccess ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               
               {/* Course Selection */}

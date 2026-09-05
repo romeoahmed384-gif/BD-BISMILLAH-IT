@@ -30,8 +30,7 @@ import {
 
 interface NavbarProps {
   onOpenAdmission: (courseId?: string) => void;
-  onOpenChat: () => void;
-  onOpenGoogleForm?: () => void;
+  onOpenChat?: () => void;
   onOpenAuth?: () => void;
   userProfile?: { name: string; email: string } | null;
   onLogout?: () => void;
@@ -40,7 +39,6 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ 
   onOpenAdmission, 
   onOpenChat, 
-  onOpenGoogleForm,
   onOpenAuth,
   userProfile,
   onLogout
@@ -150,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               </motion.div>
-              <span>বাংলাদেশ কারিগরি শিক্ষা বোর্ড অনুমোদিত প্রতিষ্ঠান (কোড: ৬২০৭৪)</span>
+              <span>সরকারি অনুমোদিত প্রতিষ্ঠান (Govt Code: 35227, 35236, 35256)</span>
             </motion.span>
 
             {/* Campus Info Badge */}
@@ -345,44 +343,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </motion.button>
             )}
 
-            {/* Google Form Button with Gentle Lift */}
-            {onOpenGoogleForm && (
-              <motion.button
-                whileHover={{ scale: 1.04, y: -1 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onOpenGoogleForm}
-                className="inline-flex items-center gap-1.5 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:shadow-md shadow-emerald-950/40"
-                title="গুগল ভর্তি ফরম ও লিংক ম্যানেজমেন্ট"
-              >
-                <motion.div
-                  whileHover={{ rotate: 15 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FileText className="w-4 h-4 text-emerald-400" />
-                </motion.div>
-                <span>Google Form</span>
-              </motion.button>
-            )}
-
-            {/* AI Chatbot Button with Wobble & Ping Dot */}
-            <motion.button
-              whileHover={{ scale: 1.04, y: -1 }}
-              whileTap={{ scale: 0.96 }}
-              onClick={onOpenChat}
-              className="inline-flex items-center gap-2 bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-sky-600/40 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:shadow-md shadow-sky-950/40 group"
-            >
-              <div className="relative">
-                <motion.div
-                  animate={{ rotate: [0, -10, 10, -5, 5, 0] }}
-                  transition={{ repeat: Infinity, duration: 4, repeatDelay: 2 }}
-                >
-                  <MessageSquare className="w-4 h-4 text-sky-400 group-hover:text-sky-300" />
-                </motion.div>
-                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-sky-400 animate-ping" />
-              </div>
-              <span>বাংলা চ্যাটবট</span>
-            </motion.button>
-
             {/* Online Admission CTA with Shimmer & Pulse */}
             <motion.button
               whileHover={{ scale: 1.06, y: -1 }}
@@ -534,32 +494,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span>স্টুডেন্ট লগইন / রেজিস্ট্রেশন</span>
                   </motion.button>
                 )}
-
-                {onOpenGoogleForm && (
-                  <motion.button
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenGoogleForm();
-                    }}
-                    className="w-full flex items-center justify-center gap-2 bg-emerald-950/90 hover:bg-emerald-900 text-emerald-300 py-2.5 rounded-xl font-semibold text-sm border border-emerald-500/40 shadow-sm"
-                  >
-                    <FileText className="w-4 h-4 text-emerald-400" />
-                    <span>অফিশিয়াল গুগল ভর্তি ফরম (Google Form)</span>
-                  </motion.button>
-                )}
-
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenChat();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 bg-slate-800/90 hover:bg-slate-700 text-sky-300 py-2.5 rounded-xl font-semibold text-sm border border-sky-600/30 shadow-sm"
-                >
-                  <MessageSquare className="w-4 h-4 text-sky-400" />
-                  <span>বাংলা এআই চ্যাটবটে প্রশ্ন করুন</span>
-                </motion.button>
 
                 <motion.button
                   whileTap={{ scale: 0.97 }}

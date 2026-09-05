@@ -21,8 +21,7 @@ import {
   FOURTH_BRANCH_PHONE, 
   FOURTH_BRANCH_WHATSAPP_DISPLAY,
   EIGHTH_BRANCH_PHONE,
-  FACEBOOK_PAGE_URL,
-  OFFICIAL_GOOGLE_FORM_URL
+  FACEBOOK_PAGE_URL
 } from '../data/branchesData';
 
 interface FooterProps {
@@ -78,10 +77,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmission, onOpenChat }) =
               <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-1">
                 <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার অনুমোদিত</span>
+                  <span>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার অনুমোদিত (Govt Code: 35227, 35236, 35256)</span>
                 </div>
                 <p className="text-[11px] text-slate-400">
-                  কারিগরি শিক্ষা বোর্ড ও ইন্ডাস্ট্রি স্ট্যান্ডার্ড সার্টিফাইড ল্যাব
+                  কারিগরি শিক্ষা বোর্ড ও ইন্ডাস্ট্রি স্ট্যান্ডার্ড সার্টিফাইড আইটি প্রতিষ্ঠান
                 </p>
               </div>
             </div>
@@ -112,15 +111,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmission, onOpenChat }) =
               <li><a href="#events" className="hover:text-amber-400 transition-colors">ফ্রি সেমিনার ও ওয়ার্কশপ</a></li>
               <li><a href="#branches" className="hover:text-amber-400 transition-colors">খুলনার ৪টি ক্যাম্পাস</a></li>
               <li>
-                <a 
-                  href={OFFICIAL_GOOGLE_FORM_URL} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="text-emerald-400 font-semibold hover:underline flex items-center gap-1"
+                <button 
+                  onClick={onOpenAdmission}
+                  className="text-emerald-400 font-semibold hover:underline flex items-center gap-1 text-left"
                 >
-                  <span>অনলাইন গুগল ভর্তি ফরম</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                  <span>অনলাইন ভর্তি আবেদন</span>
+                </button>
               </li>
               <li><a href={FACEBOOK_PAGE_URL} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">ফেসবুক পেজ (bdbcit)</a></li>
               <li><button onClick={onOpenChat} className="text-sky-400 hover:underline">বাংলা এআই চ্যাটবট</button></li>

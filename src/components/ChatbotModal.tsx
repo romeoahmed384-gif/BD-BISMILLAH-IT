@@ -48,14 +48,14 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
     {
       id: 'welcome-msg',
       sender: 'bot',
-      text: `আসসালামু আলাইকুম! আমি বিডি বিসমিল্লাহ আইটি সেন্টারের স্মার্ট এআই ক্যারিয়ার কনসালটেন্ট।
+      text: `আসসালামু আলাইকুম! আমি 'বিডি বিসমিল্লাহ্ কম্পিউটার এন্ড আইটি' (Govt Code: 35227, 35236, 35256)-এর অফিশিয়াল এআই সহকারী।
 
-আমাদের খুলনার ৪টি ক্যাম্পাসের যেকোনো কোর্স, নতুন ব্যাচের সময়সূচি, ৪০% ডিসকাউন্ট অফার ও ফ্রিল্যান্সিং ক্যারিয়ার সংক্রান্ত যেকোনো বিষয়ে আমি আপনাকে সহযোগিতা করতে প্রস্তুত।`,
+খুলনা বিভাগের সর্ববৃহৎ আইটি প্রতিষ্ঠানে আপনাকে স্বাগতম। আমাদের অফিশিয়াল কোর্স তালিকা, নিয়মিত ও এককালীন ছাড়ে ফি, বিশেষ সেবা (ছোটদের কম্পিউটার ও স্পোকেন কোর্স, আইডি কার্ড অর্ডার ও আর্নিং সুবিধা) এবং ক্যারিয়ার গাইডলাইন নিয়ে আপনাকে সহযোগিতা করতে প্রস্তুত।`,
       timestamp: 'এইমাত্র',
       suggestions: [
-        'ক্যারিয়ার গাইডলাইন দিন',
-        'কোর্স ফি ও ৪০% ছাড়ের অফার',
-        'খুলনার ৪টি ব্রাঞ্চের ঠিকানা ও ফোন',
+        'কোর্স তালিকা ও এককালীন ছাড়ের ফি',
+        'ক্যারিয়ার গাইডলাইন ও কোর্স পরামর্শ',
+        'ছোটদের প্রশিক্ষণ ও আইডি কার্ড সেবা',
         'অনলাইন ভর্তি ফর্ম পূরণ'
       ]
     }
@@ -126,11 +126,13 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
     }
   };
 
-  const handleQuickAction = (actionType: 'career' | 'courses' | 'branches') => {
+  const handleQuickAction = (actionType: 'career' | 'courses' | 'branches' | 'special') => {
     if (actionType === 'career') {
-      handleSendMessage('আইটিতে নতুনদের জন্য ক্যারিয়ার গাইডলাইন এবং কোন কোর্সটি দিয়ে শুরু করা উচিত?');
+      handleSendMessage('আইটিতে ক্যারিয়ার গাইডলাইন দিন এবং কোন কোর্স দিয়ে শুরু করা উচিত?');
     } else if (actionType === 'courses') {
-      handleSendMessage('বিডি বিসমিল্লাহ আইটি সেন্টারের সকল কোর্স বিবরণী, সময়কাল ও ৪০% ডিসকাউন্ট ফি জানান।');
+      handleSendMessage('বিডি বিসমিল্লাহ আইটি সেন্টারের সকল কোর্স তালিকা, মেয়াদ ও নিয়মিত এবং এককালীন ছাড়ের ফি জানান।');
+    } else if (actionType === 'special') {
+      handleSendMessage('ছোটদের বিশেষ কম্পিউটার কোর্স ও স্পোকেন ইংলিশ এবং আইডি কার্ড অর্ডার সেবা সম্পর্কে বিস্তারিত জানান।');
     } else if (actionType === 'branches') {
       handleSendMessage('খুলনার ৪টি ক্যাম্পাসের সুনির্দিষ্ট ঠিকানা, ফোন নম্বর ও যোগাযোগের সময়সূচি দিন।');
     }
@@ -277,6 +279,16 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
                 >
                   <BookOpen className="w-3.5 h-3.5 text-amber-400" />
                   <span>Course Details</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleQuickAction('special')}
+                  disabled={isLoading}
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-sky-950/80 border border-slate-700 hover:border-sky-500/50 text-slate-200 hover:text-sky-300 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap active:scale-95 cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Special Services</span>
                 </button>
 
                 <button

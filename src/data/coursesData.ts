@@ -565,17 +565,17 @@ export const COURSES_DATA: Course[] = [
     ]
   },
 
-  // 10. অফিস অ্যাপ্লিকেশন (৬ মাস)
+  // 10. অফিস অ্যাপ্লিকেশন (এডভান্সড)
   {
     id: 'office-application-6m',
     serialNo: '১০',
-    title: 'অফিস অ্যাপ্লিকেশন',
+    title: 'অফিস অ্যাপ্লিকেশন (এডভান্সড)',
     category: 'office',
     badge: 'এককালীন ৫,০০০৳',
     duration: '৬ মাস',
     totalClasses: 48,
     totalHours: 96,
-    regularFee: 7000,
+    regularFee: 6000,
     discountFee: 5000,
     rating: 5.0,
     reviewCount: 390,
@@ -583,7 +583,7 @@ export const COURSES_DATA: Course[] = [
     nextBatchDate: 'শুক্রবার ব্যতীত প্রতিদিন নিয়মিত ক্লাস চলছে',
     batchType: 'অনলাইন ও অফলাইন',
     image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80',
-    shortDescription: 'MS Office ডিপ্লোমা, অ্যাডভান্সড এক্সেল, অ্যাক্সেস ডেটাবেস, সরকারি ফরম্যাটিং ও কারিগরি বোর্ড সার্টিফিকেট। নিয়মিত ফি ৭,০০০৳, এককালীন ৫,০০০৳।',
+    shortDescription: 'MS Office ডিপ্লোমা, অ্যাডভান্সড এক্সেল, অ্যাক্সেস ডেটাবেস, সরকারি ফরম্যাটিং ও কারিগরি বোর্ড সার্টিফিকেট। নিয়মিত ফি ৬,০০০৳, এককালীন ৫,০০০৳।',
     instructor: {
       name: 'মো: রফিকুল ইসলাম',
       designation: 'সার্টিফাইড অফিস স্পেশালিস্ট ও একাডেমি মেন্টর',
@@ -591,7 +591,7 @@ export const COURSES_DATA: Course[] = [
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
     },
     features: [
-      'কোর্স ফি: ৭,০০০/- টাকা (এককালীন পরিশোধে ৫,০০০/- টাকা)',
+      'কোর্স ফি: ৬,০০০/- টাকা (এককালীন পরিশোধে ৫,০০০/- টাকা)',
       'মেয়াদ: ৬ মাস ডিপ্লোমা কারিকুলাম (সপ্তাহে ৬ দিন খোলা)',
       'ক্লাস সময়: সকাল ১০:০০ - রাত ৮:০০ (পছন্দমতো শিফট নির্বাচন)',
       'অ্যাডভান্সড এক্সেল (VLOOKUP, HLOOKUP, Pivot Table, Macros)',
@@ -683,25 +683,25 @@ export const COURSES_DATA: Course[] = [
     ]
   },
 
-  // 12. অফিস অ্যাপ্লিকেশন + আউটসোর্সিং (৩ মাস)
+  // 12. অফিস অ্যাপ্লিকেশন + আউটসোর্সিং (৬ মাস)
   {
     id: 'office-application-outsourcing-3m',
     serialNo: '১২',
     title: 'অফিস অ্যাপ্লিকেশন + আউটসোর্সিং',
     category: 'office',
-    badge: 'এককালীন ৫,০০০৳',
-    duration: '৩ মাস',
-    totalClasses: 24,
-    totalHours: 48,
-    regularFee: 6000,
-    discountFee: 5000,
+    badge: 'এককালীন ৬,০০০৳',
+    duration: '৬ মাস',
+    totalClasses: 48,
+    totalHours: 96,
+    regularFee: 7000,
+    discountFee: 6000,
     rating: 4.9,
     reviewCount: 340,
     enrolledStudents: 1650,
     nextBatchDate: 'শুক্রবার ব্যতীত প্রতিদিন নিয়মিত ক্লাস চলছে',
     batchType: 'অনলাইন ও অফলাইন',
     image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80',
-    shortDescription: 'MS Office, ডেটা এন্ট্রি (Data Entry), ওয়েব রিসার্চ, ভার্চুয়াল অ্যাসিস্ট্যান্ট ও Fiverr/Upwork আউটসোর্সিং। নিয়মিত ফি ৬,০০০৳, এককালীন ৫,০০০৳।',
+    shortDescription: 'MS Office, ডেটা এন্ট্রি (Data Entry), ওয়েব রিসার্চ, ভার্চুয়াল অ্যাসিস্ট্যান্ট ও Fiverr/Upwork আউটসোর্সিং। নিয়মিত ফি ৭,০০০৳, এককালীন ৬,০০০৳।',
     instructor: {
       name: 'মো: রফিকুল ইসলাম ও আউটসোর্সিং টিম',
       designation: 'ডেটা অ্যানালিস্ট ও ফ্রিল্যান্স কনসালট্যান্ট',
@@ -709,8 +709,8 @@ export const COURSES_DATA: Course[] = [
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
     },
     features: [
-      'কোর্স ফি: ৬,০০০/- টাকা (এককালীন পরিশোধে ৫,০০০/- টাকা)',
-      'মেয়াদ: ৩ মাস (২৪টি ক্লাস + ফ্রিল্যান্সিং ল্যাব প্র্যাকটিস)',
+      'কোর্স ফি: ৭,০০০/- টাকা (এককালীন পরিশোধে ৬,০০০/- টাকা)',
+      'মেয়াদ: ৬ মাস মেয়াদী কারিকুলাম ও ফ্রিল্যান্সিং ল্যাব প্র্যাকটিস',
       'অফিস অ্যাপ্লিকেশন + প্রফেশনাল ডেটা এন্ট্রি স্পেশালাইজেশন',
       'ওয়েব রিসার্চ, লিড জেনারেশন ও গুগল ডক্স/শিট এক্সপার্টিজ',
       'Fiverr ও Upwork-এ Data Entry ও Virtual Assistant গিগ',
@@ -801,25 +801,25 @@ export const COURSES_DATA: Course[] = [
     ]
   },
 
-  // 14. অটোক্যাড (৩/৬ মাস)
+  // 14. অটোক্যাড (২/৩ মাস)
   {
     id: 'autocad-2d-3d',
     serialNo: '১৪',
     title: 'অটোক্যাড',
     category: 'engineering',
-    badge: 'এককালীন ৭,০০০৳',
-    duration: '৩/৬ মাস',
-    totalClasses: 32,
-    totalHours: 64,
-    regularFee: 8000,
-    discountFee: 7000,
+    badge: 'এককালীন ৫,০০০৳',
+    duration: '২/৩ মাস',
+    totalClasses: 24,
+    totalHours: 48,
+    regularFee: 6000,
+    discountFee: 5000,
     rating: 4.9,
     reviewCount: 190,
     enrolledStudents: 720,
     nextBatchDate: '১লা আগামী মাস',
     batchType: 'অনলাইন ও অফলাইন',
     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
-    shortDescription: 'AutoCAD 2D & 3D আর্কিটেকচারাল ড্রয়িং, সিভিল ফ্লোর প্ল্যান, ইলেকট্রিক্যাল লেআউট ও ডিজাইন প্রজেক্ট। নিয়মিত ফি ৮,০০০৳, এককালীন ৭,০০০৳।',
+    shortDescription: 'AutoCAD 2D & 3D আর্কিটেকচারাল ড্রয়িং, সিভিল ফ্লোর প্ল্যান, ইলেকট্রিক্যাল লেআউট ও ডিজাইন প্রজেক্ট। নিয়মিত ফি ৬,০০০৳, এককালীন ৫,০০০৳।',
     instructor: {
       name: 'ইঞ্জিনিয়ার সাজ্জাদ হোসেন',
       designation: 'আর্কিটেকচারাল ডিজাইনার ও ক্যাড স্পেশালিস্ট',
@@ -827,8 +827,8 @@ export const COURSES_DATA: Course[] = [
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
     },
     features: [
-      'কোর্স ফি: ৮,০০০/- টাকা (এককালীন পরিশোধে ৭,০০০/- টাকা)',
-      'মেয়াদ: ৩ থেকে ৬ মাস মেয়াদী প্র্যাকটিক্যাল ড্রয়িং কোর্স',
+      'কোর্স ফি: ৬,০০০/- টাকা (এককালীন পরিশোধে ৫,০০০/- টাকা)',
+      'মেয়াদ: ২ থেকে ৩ মাস মেয়াদী প্র্যাকটিক্যাল ড্রয়িং কোর্স',
       'AutoCAD 2D ফ্লোর প্ল্যান, এলিভেশন ও সেকশন ড্রয়িং',
       'AutoCAD 3D মডেলিং ও আর্কিটেকচারাল ভিজ্যুয়ালাইজেশন',
       'সিভিল, আর্কিটেকচার ও ইঞ্জিনিয়ারিং শিক্ষার্থীদের জন্য আবশ্যক',
