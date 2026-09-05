@@ -31,34 +31,51 @@ export interface RegistrationEmailData {
  */
 export const sendRegistrationEmail = async (data: RegistrationEmailData) => {
   const branchCourseCombo = [
-    data.branch ? `ব্রাঞ্চ: ${data.branch}` : '',
-    data.course ? `কোর্স: ${data.course}` : ''
+    data.course ? `কোর্স: ${data.course}` : '',
+    data.branch ? `ব্রাঞ্চ: ${data.branch}` : ''
   ].filter(Boolean).join(' | ');
 
-  const assembledMessage = data.message?.trim() 
-    ? data.message 
-    : `অনলাইন রেজিস্ট্রেশন আবেদন।\nকোর্স: ${data.course || 'N/A'}\nব্রাঞ্চ: ${data.branch || 'N/A'}\nশিফট: ${data.shift || 'N/A'}\nক্লাস মোড: ${data.batchMode || 'N/A'}\nপেমেন্ট মেথড: ${data.paymentMethod || 'N/A'}\nঠিকানা: ${data.address || 'N/A'}\nরেজিস্ট্রেশন রোল: ${data.trackingRoll || 'N/A'}`;
+  const courseAndBranchDisplay = data.course && data.branch 
+    ? `${data.course} (${data.branch})` 
+    : data.course || data.branch || 'বিডি বিসমিল্লাহ আইটি কোর্স';
+
+  let assembledMessage = '';
+  if (data.message && data.message.trim()) {
+    assembledMessage = data.message.trim();
+    if (data.shift || data.batchMode || data.trackingRoll || data.address) {
+      assembledMessage += `\n\n[অতিরিক্ত তথ্য: শিফট: ${data.shift || 'N/A'}, মাধ্যম: ${data.batchMode || 'N/A'}, রোল: ${data.trackingRoll || 'N/A'}${data.address ? `, এলাকা: ${data.address}` : ''}]`;
+    }
+  } else {
+    assembledMessage = `অনলাইন কোর্স রেজিস্ট্রেশন আবেদন।\nশিফট: ${data.shift || 'N/A'}\nক্লাস মাধ্যম: ${data.batchMode || 'N/A'}\nপেমেন্ট মেথড: ${data.paymentMethod || 'N/A'}\nরেজিস্ট্রেশন আইডি: ${data.trackingRoll || 'N/A'}${data.address ? `\nঠিকানা: ${data.address}` : ''}`;
+  }
 
   const templateParams: Record<string, string> = {
-    // Primary fields as requested
-    name: data.name,
-    phone: data.phone,
-    email: data.email?.trim() || 'প্রদান করা হয়নি',
-    course: data.course || '',
-    branch: data.branch || '',
-    branch_course: branchCourseCombo || `${data.branch || ''} - ${data.course || ''}`,
+    // Exact keys requested in user's EmailJS Template:
+    // {{from_name}}
+    from_name: data.name,
+    // {{phone_number}}
+    phone_number: data.phone,
+    // {{user_email}}
+    user_email: data.email?.trim() || 'প্রদান করা হয়নি',
+    // {{course_name}} (Selected Course/Branch)
+    course_name: courseAndBranchDisplay,
+    // {{message}} (Additional Message)
     message: assembledMessage,
 
-    // Secondary & Aliased fields to ensure 100% template compatibility
-    from_name: data.name,
+    // Also include standard variants so nothing breaks if template edits occur
+    name: data.name,
     user_name: data.name,
+    student_name: data.name,
+    phone: data.phone,
     user_phone: data.phone,
     contact_number: data.phone,
-    user_email: data.email?.trim() || 'noreply@bdbcit.com',
+    email: data.email?.trim() || 'প্রদান করা হয়নি',
     reply_to: data.email?.trim() || '',
-    course_name: data.course || '',
-    branch_name: data.branch || '',
+    course: data.course || '',
+    branch: data.branch || '',
+    branch_course: branchCourseCombo,
     student_roll: data.trackingRoll || '',
+    roll_id: data.trackingRoll || '',
     shift: data.shift || '',
     batch_mode: data.batchMode || '',
     payment_method: data.paymentMethod || '',
