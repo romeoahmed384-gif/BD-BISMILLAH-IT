@@ -216,21 +216,6 @@ export const GoogleFormManagerModal: React.FC<GoogleFormManagerModalProps> = ({ 
                     </a>
                   </div>
                 </div>
-
-                {formInfo?.editUri && (
-                  <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-800">
-                    <span className="text-slate-400">অ্যাডমিন হিসেবে রেসপন্স ও স্প্রেডশিট দেখতে:</span>
-                    <a
-                      href={formInfo.editUri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sky-400 hover:underline font-bold inline-flex items-center gap-1"
-                    >
-                      <span>গুগল ড্রাইভ এডিট ও রেসপন্স শিট</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                )}
               </div>
             )}
           </div>
@@ -275,7 +260,7 @@ export const GoogleFormManagerModal: React.FC<GoogleFormManagerModalProps> = ({ 
               <span>বিডি বিসমিল্লাহ আইটি সেন্টারের অফিশিয়াল তথ্যাবলি</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              যেকোনো শিক্ষার্থী সরাসরি গুগল ফর্মের মাধ্যমে আবেদন করলে সমস্ত তথ্য স্বয়ংক্রিয়ভাবে গুগল ড্রাইভে ও স্প্রেডশিটে সেভ হবে। তাছাড়া আমাদের ওয়েবসাইট থেকে সরাসরি রেজিস্ট্রেশন করলেও শিক্ষার্থীর রসিদ জেনারেট হয়ে যায়।
+              যেকোনো শিক্ষার্থী সরাসরি গুগল ফর্মের মাধ্যমে আবেদন করতে পারবেন। তাছাড়া আমাদের ওয়েবসাইট থেকে সরাসরি রেজিস্ট্রেশন করলেও শিক্ষার্থীর রসিদ জেনারেট হয়ে যায়।
             </p>
             <div className="flex items-center justify-between pt-1 text-[11px] text-slate-300 font-mono">
               <span>৮ম ব্রাঞ্চ (বয়রা মডেল): {EIGHTH_BRANCH_PHONE}</span>

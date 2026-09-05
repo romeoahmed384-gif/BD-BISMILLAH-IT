@@ -22,6 +22,7 @@ export const BRANCHES_DATA: Branch[] = [
     manager: 'খুলনা সেন্ট্রাল ক্যাম্পাস টিম',
     timing: 'সকাল ১০:০০ টা - রাত ৮:০০ টা (শুক্রবার ব্যতিত প্রতিদিন খোলা)',
     mapEmbedUrl: 'https://maps.google.com/maps?q=Khalishpur%20Khulna%20Bangladesh&t=&z=14&ie=UTF8&iwloc=&output=embed',
+    googleMapsUrl: 'https://maps.google.com/?q=Khalishpur+Khulna+Bangladesh',
   },
   {
     id: 3,
@@ -35,6 +36,7 @@ export const BRANCHES_DATA: Branch[] = [
     manager: 'ব্রাঞ্চ ইন-চার্জ (কমার্স কলেজ শাখা)',
     timing: 'সকাল ১০:০০ টা - রাত ৮:০০ টা (শুক্রবার ব্যতিত প্রতিদিন খোলা)',
     mapEmbedUrl: 'https://maps.google.com/maps?q=Govt%20Azam%20Khan%20Commerce%20College%20Khulna&t=&z=15&ie=UTF8&iwloc=&output=embed',
+    googleMapsUrl: 'https://maps.google.com/?q=Govt+Azam+Khan+Commerce+College+Khulna',
   },
   {
     id: 4,
@@ -49,6 +51,7 @@ export const BRANCHES_DATA: Branch[] = [
     manager: 'মো: আব্দুল্লাহ (কো-অর্ডিনেটর)',
     timing: 'সকাল ১০:০০ টা - রাত ৮:০০ টা (শুক্রবার ব্যতিত প্রতিদিন খোলা)',
     mapEmbedUrl: 'https://maps.google.com/maps?q=Govt%20BL%20College%20Khulna&t=&z=15&ie=UTF8&iwloc=&output=embed',
+    googleMapsUrl: 'https://maps.google.com/?q=Govt+BL+College+Khulna',
   },
   {
     id: 8,
@@ -63,6 +66,7 @@ export const BRANCHES_DATA: Branch[] = [
     manager: 'ট্রেনিং কো-অর্ডিনেটর (বয়রা শাখা)',
     timing: 'সকাল ১০:০০ টা - রাত ৮:০০ টা (শুক্রবার ব্যতিত প্রতিদিন খোলা)',
     mapEmbedUrl: 'https://maps.google.com/maps?q=Khulna%20Boyra%20Model%20School%20and%20College&t=&z=15&ie=UTF8&iwloc=&output=embed',
+    googleMapsUrl: 'https://maps.google.com/?q=Khulna+Boyra+Model+School+and+College',
   },
 ];
 

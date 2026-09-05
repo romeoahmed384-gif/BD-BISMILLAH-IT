@@ -90,9 +90,12 @@ export default function App() {
         <EventsAndBlog />
       </SectionScrollWrapper>
 
-      {/* 8. Contact Info, 4 Branches & Maps */}
+      {/* 8. Contact Info, 4 Branches, Google Form & Maps */}
       <SectionScrollWrapper id="branches">
-        <ContactAndBranches />
+        <ContactAndBranches
+          onOpenGoogleFormModal={() => setIsGoogleFormModalOpen(true)}
+          onOpenAdmission={() => handleOpenAdmission()}
+        />
       </SectionScrollWrapper>
 
       {/* 9. Comprehensive Footer */}

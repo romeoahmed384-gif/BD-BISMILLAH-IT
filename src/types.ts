@@ -64,6 +64,7 @@ export interface Branch {
   manager: string;
   timing: string;
   mapEmbedUrl: string;
+  googleMapsUrl?: string;
 }
 
 export interface BlogPost {
