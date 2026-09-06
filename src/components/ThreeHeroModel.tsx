@@ -103,73 +103,209 @@ export const ThreeHeroModel: React.FC<ThreeHeroModelProps> = ({
 
     // Helper: Build dynamic screen canvas texture for the laptop
     const screenCanvas = document.createElement('canvas');
-    screenCanvas.width = 512;
-    screenCanvas.height = 320;
+    screenCanvas.width = 1024;
+    screenCanvas.height = 640;
     screenTextureCanvasRef.current = screenCanvas;
     const screenCtx = screenCanvas.getContext('2d');
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTextureRef.current = screenTexture;
 
-    let codeLineIdx = 0;
+    // Helper for rounded rectangle on canvas
+    const drawRoundRect = (
+      ctx: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      radius: number
+    ) => {
+      if (typeof ctx.roundRect === 'function') {
+        ctx.beginPath();
+        ctx.roundRect(x, y, width, height, radius);
+      } else {
+        ctx.beginPath();
+        ctx.rect(x, y, width, height);
+      }
+    };
+
     const updateScreenCanvas = (timeVal: number) => {
       if (!screenCtx) return;
-      screenCtx.fillStyle = '#090d16';
-      screenCtx.fillRect(0, 0, 512, 320);
+      const w = 1024;
+      const h = 640;
 
-      // Top IDE bar
+      // 1. Deep Futuristic Gradient Background
+      const bgGrad = screenCtx.createRadialGradient(w / 2, h / 2, 80, w / 2, h / 2, 580);
+      bgGrad.addColorStop(0, '#0f172a');
+      bgGrad.addColorStop(0.5, '#090d1a');
+      bgGrad.addColorStop(1, '#020617');
+      screenCtx.fillStyle = bgGrad;
+      screenCtx.fillRect(0, 0, w, h);
+
+      // 2. Subtle Tech Grid Pattern
+      screenCtx.strokeStyle = 'rgba(244, 63, 94, 0.08)';
+      screenCtx.lineWidth = 1;
+      for (let x = 40; x < w; x += 48) {
+        screenCtx.beginPath();
+        screenCtx.moveTo(x, 0);
+        screenCtx.lineTo(x, h);
+        screenCtx.stroke();
+      }
+      for (let y = 50; y < h; y += 48) {
+        screenCtx.beginPath();
+        screenCtx.moveTo(0, y);
+        screenCtx.lineTo(w, y);
+        screenCtx.stroke();
+      }
+
+      // 3. Top System / Browser Navigation Header
+      screenCtx.fillStyle = '#090f1f';
+      screenCtx.fillRect(0, 0, w, 52);
       screenCtx.fillStyle = '#1e293b';
-      screenCtx.fillRect(0, 0, 512, 32);
+      screenCtx.fillRect(0, 50, w, 2);
+
       // Window control dots
       screenCtx.fillStyle = '#f43f5e';
       screenCtx.beginPath();
-      screenCtx.arc(20, 16, 5, 0, Math.PI * 2);
+      screenCtx.arc(36, 26, 8, 0, Math.PI * 2);
       screenCtx.fill();
+
       screenCtx.fillStyle = '#fbbf24';
       screenCtx.beginPath();
-      screenCtx.arc(36, 16, 5, 0, Math.PI * 2);
+      screenCtx.arc(62, 26, 8, 0, Math.PI * 2);
       screenCtx.fill();
+
       screenCtx.fillStyle = '#10b981';
       screenCtx.beginPath();
-      screenCtx.arc(52, 16, 5, 0, Math.PI * 2);
+      screenCtx.arc(88, 26, 8, 0, Math.PI * 2);
       screenCtx.fill();
 
-      // Title
-      screenCtx.fillStyle = '#cbd5e1';
-      screenCtx.font = 'bold 13px monospace';
-      screenCtx.fillText('BDBismillahIT-App.tsx', 75, 20);
+      // Top URL/Center pill
+      screenCtx.fillStyle = '#1e293b';
+      drawRoundRect(screenCtx, w / 2 - 180, 10, 360, 32, 16);
+      screenCtx.fill();
+      screenCtx.fillStyle = '#94a3b8';
+      screenCtx.font = '600 14px monospace';
+      screenCtx.textAlign = 'center';
+      screenCtx.textBaseline = 'middle';
+      screenCtx.fillText('🔒 https://bdbismillahit.com', w / 2, 26);
 
-      // Terminal / Code text
-      screenCtx.font = '14px monospace';
-      const lines = [
-        '// BD Bismillah IT Center • Khulna',
-        'import { Future, Success } from "bd-it";',
-        'const trainee = new Professional();',
-        'await trainee.master([',
-        '  "Graphics Design & UI/UX",',
-        '  "Full-Stack Web & MERN",',
-        '  "Digital Marketing & SEO",',
-        '  "Office Applications"',
-        ']);',
-        'trainee.earnCertificate("Govt. Technical Board");',
-        'console.log("Career: 100% Successful!");',
+      // Top Right Status indicator
+      const pulseGreen = 0.5 + Math.sin(timeVal * 4) * 0.5;
+      screenCtx.fillStyle = `rgba(16, 185, 129, ${0.4 + pulseGreen * 0.6})`;
+      screenCtx.beginPath();
+      screenCtx.arc(w - 180, 26, 6, 0, Math.PI * 2);
+      screenCtx.fill();
+      screenCtx.fillStyle = '#34d399';
+      screenCtx.font = 'bold 13px sans-serif';
+      screenCtx.textAlign = 'left';
+      screenCtx.fillText('ভর্তি চলছে ২০২৫-২৬', w - 165, 26);
+
+      // 4. Center Glowing Aura
+      const auraPulse = 180 + Math.sin(timeVal * 2) * 20;
+      const aura = screenCtx.createRadialGradient(w / 2, 260, 20, w / 2, 260, auraPulse);
+      aura.addColorStop(0, 'rgba(244, 63, 94, 0.25)');
+      aura.addColorStop(0.5, 'rgba(251, 191, 36, 0.12)');
+      aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      screenCtx.fillStyle = aura;
+      screenCtx.beginPath();
+      screenCtx.arc(w / 2, 260, auraPulse, 0, Math.PI * 2);
+      screenCtx.fill();
+
+      // 5. Center Tech Emblem / Badge
+      const emblemCenterY = 175;
+      // Rotating outer dashed ring
+      screenCtx.save();
+      screenCtx.translate(w / 2, emblemCenterY);
+      screenCtx.rotate(timeVal * 0.5);
+      screenCtx.strokeStyle = 'rgba(244, 63, 94, 0.65)';
+      screenCtx.lineWidth = 2.5;
+      screenCtx.setLineDash([8, 6]);
+      screenCtx.beginPath();
+      screenCtx.arc(0, 0, 46, 0, Math.PI * 2);
+      screenCtx.stroke();
+      screenCtx.restore();
+
+      // Inner glowing icon disc
+      const discGrad = screenCtx.createLinearGradient(w / 2 - 38, emblemCenterY - 38, w / 2 + 38, emblemCenterY + 38);
+      discGrad.addColorStop(0, '#e11d48');
+      discGrad.addColorStop(1, '#f59e0b');
+      screenCtx.fillStyle = discGrad;
+      screenCtx.beginPath();
+      screenCtx.arc(w / 2, emblemCenterY, 36, 0, Math.PI * 2);
+      screenCtx.fill();
+
+      // Monogram inside disc
+      screenCtx.fillStyle = '#ffffff';
+      screenCtx.font = '900 24px sans-serif';
+      screenCtx.textAlign = 'center';
+      screenCtx.textBaseline = 'middle';
+      screenCtx.fillText('BCIT', w / 2, emblemCenterY);
+
+      // 6. MAIN TITLE: "BD Bismillah Computer & IT"
+      screenCtx.font = '900 46px system-ui, -apple-system, sans-serif';
+      screenCtx.textAlign = 'center';
+      screenCtx.textBaseline = 'alphabetic';
+
+      // Drop shadow glow for main title
+      screenCtx.shadowColor = 'rgba(244, 63, 94, 0.65)';
+      screenCtx.shadowBlur = 18;
+      screenCtx.fillStyle = '#ffffff';
+      screenCtx.fillText('BD Bismillah Computer & IT', w / 2, 288);
+      screenCtx.shadowBlur = 0; // reset shadow
+
+      // 7. Sub-title in Bengali: "বিডি বিসমিল্লাহ কম্পিউটার অ্যান্ড আইটি"
+      screenCtx.font = 'bold 26px "Hind Siliguri", "Segoe UI", sans-serif';
+      screenCtx.fillStyle = '#fb7185';
+      screenCtx.fillText('বিডি বিসমিল্লাহ কম্পিউটার অ্যান্ড আইটি', w / 2, 332);
+
+      // 8. Institute Accreditation / Tagline
+      screenCtx.font = '600 18px sans-serif';
+      screenCtx.fillStyle = '#cbd5e1';
+      screenCtx.fillText('Govt. Reg. No: 103043 • খুলনা বিভাগের বিশ্বস্ত আইটি ইনস্টিটিউট', w / 2, 372);
+
+      // 9. Three Modern Feature Pills at Bottom
+      const pills = [
+        { label: '🏛️ ৪টি নিজস্ব ক্যাম্পাস', bg: 'rgba(56, 189, 248, 0.12)', border: 'rgba(56, 189, 248, 0.35)', color: '#38bdf8' },
+        { label: '💻 ১০০% প্র্যাকটিক্যাল ল্যাব', bg: 'rgba(244, 63, 94, 0.12)', border: 'rgba(244, 63, 94, 0.35)', color: '#fb7185' },
+        { label: '🎓 সরকারি ও আন্তর্জাতিক সনদ', bg: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.35)', color: '#34d399' },
       ];
 
-      const visibleLines = Math.floor((timeVal * 1.5) % (lines.length + 3));
-      lines.forEach((line, idx) => {
-        if (idx <= visibleLines) {
-          if (line.startsWith('//')) screenCtx.fillStyle = '#64748b';
-          else if (line.includes('const') || line.includes('import')) screenCtx.fillStyle = '#f43f5e';
-          else if (line.includes('"')) screenCtx.fillStyle = '#34d399';
-          else screenCtx.fillStyle = '#38bdf8';
-          screenCtx.fillText(line, 24, 65 + idx * 22);
-        }
+      const pillWidth = 260;
+      const pillHeight = 50;
+      const startX = (w - (pills.length * pillWidth + (pills.length - 1) * 24)) / 2;
+      const pillY = 425;
+
+      pills.forEach((pill, i) => {
+        const px = startX + i * (pillWidth + 24);
+        screenCtx.fillStyle = pill.bg;
+        screenCtx.strokeStyle = pill.border;
+        screenCtx.lineWidth = 1.5;
+        drawRoundRect(screenCtx, px, pillY, pillWidth, pillHeight, 14);
+        screenCtx.fill();
+        screenCtx.stroke();
+
+        screenCtx.fillStyle = pill.color;
+        screenCtx.font = 'bold 16px "Hind Siliguri", sans-serif';
+        screenCtx.textAlign = 'center';
+        screenCtx.textBaseline = 'middle';
+        screenCtx.fillText(pill.label, px + pillWidth / 2, pillY + pillHeight / 2);
       });
 
-      // Blinking cursor
-      if (Math.sin(timeVal * 5) > 0) {
-        screenCtx.fillStyle = '#f43f5e';
-        screenCtx.fillRect(24 + (visibleLines < lines.length ? lines[visibleLines]?.length || 0 : 0) * 8.5, 65 + (visibleLines < lines.length ? visibleLines : lines.length - 1) * 22 - 12, 8, 16);
-      }
+      // 10. Bottom Banner Line
+      screenCtx.fillStyle = '#94a3b8';
+      screenCtx.font = '14px sans-serif';
+      screenCtx.textAlign = 'center';
+      screenCtx.textBaseline = 'alphabetic';
+      screenCtx.fillText('গ্রাফিক্স ডিজাইন • ফুলস্ট্যাক ওয়েব ডেভেলপমেন্ট • ডিজিটাল মার্কেটিং • বেসিক কম্পিউটার', w / 2, 528);
+
+      // 11. Subtle Dynamic Scan Beam (Sweeps across the screen for high-tech OLED feel)
+      const scanX = ((timeVal * 180) % (w + 400)) - 200;
+      const scanGrad = screenCtx.createLinearGradient(scanX, 0, scanX + 120, h);
+      scanGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+      scanGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.05)');
+      scanGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      screenCtx.fillStyle = scanGrad;
+      screenCtx.fillRect(0, 52, w, h - 52);
 
       screenTexture.needsUpdate = true;
     };
