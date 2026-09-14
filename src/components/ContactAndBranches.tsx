@@ -7,6 +7,7 @@ import {
   Send, 
   Building2, 
   MessageSquare, 
+  MessageCircle,
   CheckCircle2, 
   Sparkles, 
   ExternalLink, 
@@ -245,71 +246,70 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
                       </div>
                     </div>
 
-                    {/* Branch Name */}
-                    <h4 className="text-sm sm:text-base font-black text-white group-hover:text-rose-300 transition-colors leading-snug min-h-[42px]">
+                    {/* Branch Name with icon */}
+                    <h4 className="text-sm sm:text-base font-black text-white group-hover:text-rose-300 transition-colors leading-snug min-h-[40px]">
                       {branch.name}
                     </h4>
 
-                    {/* Field 1: Address Placeholder & Value */}
+                    {/* Postal Address & Landmark */}
                     <div className="space-y-1 bg-slate-950/70 p-2.5 sm:p-3 rounded-2xl border border-slate-800/80">
                       <span className="text-[10px] font-extrabold text-rose-400 uppercase tracking-wider flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-rose-400 shrink-0" />
-                        <span>ঠিকানা (Address):</span>
+                        <span>ক্যাম্পাস ঠিকানা (Khulna, BD):</span>
                       </span>
-                      <p className="text-xs text-slate-300 leading-snug font-medium">
+                      <p className="text-xs text-slate-200 leading-snug font-medium">
                         {branch.address}
                       </p>
-                      <span className="text-[10px] text-slate-500 block">
-                        মোড়/চিহ্ন: {branch.landmark}
+                      <span className="text-[10px] text-slate-400 block pt-0.5">
+                        কাছের ল্যান্ডমার্ক: <strong className="text-slate-300">{branch.landmark}</strong>
                       </span>
                     </div>
 
-                    {/* Field 2: Phone Number Placeholder & Clickable Call */}
-                    <div className="space-y-1 bg-slate-950/70 p-2.5 sm:p-3 rounded-2xl border border-slate-800/80">
-                      <span className="text-[10px] font-extrabold text-sky-400 uppercase tracking-wider flex items-center gap-1">
-                        <Phone className="w-3 h-3 text-sky-400 shrink-0" />
-                        <span>ফোন নম্বর (Phone):</span>
-                      </span>
-                      <div className="flex items-center justify-between gap-1">
-                        <a
-                          href={`tel:${branch.phone}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="font-mono text-xs font-bold text-white hover:text-sky-300 transition-colors"
-                        >
-                          {branch.phone}
-                        </a>
-                        <a
-                          href={`tel:${branch.phone}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-[10px] bg-sky-950 hover:bg-sky-900 border border-sky-600/40 text-sky-300 font-bold px-2 py-0.5 rounded-lg transition-colors shrink-0 inline-flex items-center gap-1"
-                        >
-                          <PhoneCall className="w-2.5 h-2.5" />
-                          <span>কল</span>
-                        </a>
-                      </div>
+                    {/* Hours Notice */}
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950/50 border border-slate-800/70 text-[11px] text-slate-300">
+                      <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                      <span>খোলা: সকাল ১০:০০ - রাত ৮:০০ (শুক্র বন্ধ)</span>
                     </div>
 
-                    {/* Field 3: Google Maps Link Placeholder & Action */}
-                    <div className="space-y-1 bg-slate-950/70 p-2.5 sm:p-3 rounded-2xl border border-slate-800/80">
-                      <span className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                        <Navigation className="w-3 h-3 text-emerald-400 shrink-0" />
-                        <span>গুগল ম্যাপ লিংক (Google Maps):</span>
-                      </span>
+                    {/* Action 1: Google Maps Directions Button */}
+                    <a
+                      href={mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-full py-2.5 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 font-bold text-xs flex items-center justify-center gap-2 border border-emerald-500/30 transition-all shadow-xs"
+                    >
+                      <Navigation className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Google Maps Directions</span>
+                      <ExternalLink className="w-3 h-3 opacity-70 shrink-0" />
+                    </a>
+
+                    {/* Action 2 & 3: Call Now and Direct WhatsApp Inquiry */}
+                    <div className="grid grid-cols-2 gap-2 pt-1">
                       <a
-                        href={mapsUrl}
+                        href={`tel:${branch.phone}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="py-2.5 px-2 rounded-xl bg-sky-950/80 hover:bg-sky-900 border border-sky-500/40 text-sky-200 hover:text-white font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-xs font-mono"
+                      >
+                        <PhoneCall className="w-3 h-3 text-sky-400 shrink-0" />
+                        <span>কল করুন</span>
+                      </a>
+
+                      <a
+                        href={`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${encodeURIComponent(`হ্যালো, আমি বিডি বিসমিল্লাহ আইটি-র ${branch.name} সম্পর্কে বিস্তারিত জানতে চাই।`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 text-xs text-emerald-300 hover:text-emerald-200 font-semibold group/link"
+                        className="py-2.5 px-2 rounded-xl bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-500/40 text-emerald-200 hover:text-white font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-xs"
                       >
-                        <span>গুগল ম্যাপে লোকেশন দেখুন</span>
-                        <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform shrink-0" />
+                        <MessageCircle className="w-3 h-3 text-emerald-400 shrink-0" />
+                        <span>WhatsApp</span>
                       </a>
                     </div>
                   </div>
 
-                  {/* Field 4: 'Submit Info / Contact Us' Button that leads to Google Form */}
-                  <div className="mt-4 pt-3 border-t border-slate-800/80">
+                  {/* Action 4: Counseling & Lead Submit Button */}
+                  <div className="mt-3 pt-3 border-t border-slate-800/80">
                     <button
                       type="button"
                       onClick={(e) => {
@@ -319,7 +319,7 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
                       className="w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md bg-gradient-to-r from-rose-600 via-rose-500 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white border border-rose-400/40 cursor-pointer group/btn"
                     >
                       <FileText className="w-3.5 h-3.5 shrink-0" />
-                      <span>তথ্য জমা দিন / Contact Us</span>
+                      <span>ব্রাঞ্চ তথ্য ও কাউন্সেলিং</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                     </button>
                   </div>

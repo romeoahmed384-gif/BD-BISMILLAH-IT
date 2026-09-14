@@ -16,7 +16,8 @@ import {
   Image as ImageIcon,
   Compass,
   Flame,
-  Megaphone
+  Megaphone,
+  BookOpen
 } from 'lucide-react';
 import { 
   FOURTH_BRANCH_WHATSAPP, 
@@ -28,16 +29,29 @@ import { ThreeHeroModel } from './ThreeHeroModel';
 
 interface HeroProps {
   onOpenAdmission: (courseId?: string) => void;
+  onOpenCounseling?: () => void;
   onOpenChat: () => void;
   onPlayVideoModal?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayVideoModal }) => {
+export const Hero: React.FC<HeroProps> = ({ 
+  onOpenAdmission, 
+  onOpenCounseling,
+  onOpenChat, 
+  onPlayVideoModal 
+}) => {
   const [rightPanelTab, setRightPanelTab] = useState<'3d' | 'lab'>('3d');
 
   const openWhatsApp = () => {
-    const text = encodeURIComponent('আসসালামু আলাইকুম, আমি বিডি বিসমিল্লাহ আইটি সেন্টারে ভর্তি হতে চাই ও ৮ম ব্রাঞ্চের কোর্স অফার সম্পর্কে জানতে চাই।');
+    const text = encodeURIComponent('হ্যালো, আমি বিডি বিসমিল্লাহ আইটি-র কোর্স সম্পর্কে বিস্তারিত জানতে চাই।');
     window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
+  };
+
+  const handleBrowseCourses = () => {
+    const el = document.getElementById('courses');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -77,13 +91,38 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
                 <span className="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">সীমিত আসন</span>
               </motion.div>
 
-              {/* Display Title */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] font-black leading-tight tracking-tight text-white">
-                আপনার ক্যারিয়ারের নতুন দিগন্ত খুলুন{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-300 to-amber-300">
-                  বিডি বিসমিল্লাহ আইটি সেন্টারের সাথে
+              {/* Display Title - SEO Optimized H1 */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.65rem] font-black leading-[1.18] tracking-tight text-white">
+                খুলনার সেরা প্র্যাকটিক্যাল ও প্রজেক্ট-ভিত্তিক{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-amber-300 to-rose-300">
+                  আইটি ট্রেনিং সেন্টার
                 </span>
               </h1>
+
+              {/* Sub-headline / Core Positioning */}
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+                <strong>বিডি বিসমিল্লাহ কম্পিউটার এন্ড আইটি</strong> — আধুনিক কম্পিউটার ল্যাব, রিয়েল-লাইফ প্রজেক্ট এবং অভিজ্ঞ ফ্রিল্যান্সার মেন্টরের তত্ত্বাবধানে ফুল-স্ট্যাক ওয়েব ডেভেলপমেন্ট, প্রফেশনাল গ্রাফিক্স ডিজাইন, ডিজিটাল মার্কেটিং ও অফিস অ্যাপ্লিকেশন শিখে আত্মবিশ্বাসী ক্যারিয়ার গড়ুন খুলনার ৪টি ক্যাম্পাসে।
+              </p>
+
+              {/* Trust Badges - Micro Stats */}
+              <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 border border-rose-500/30 text-rose-300 font-semibold shadow-xs">
+                  <Users className="w-3.5 h-3.5 text-rose-400" />
+                  <span>৫,০০০+ Alumni (সফল শিক্ষার্থী)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 border border-emerald-500/30 text-emerald-300 font-semibold shadow-xs">
+                  <Award className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Practical Projects (১০০% প্র্যাকটিক্যাল ল্যাব)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 border border-sky-500/30 text-sky-300 font-semibold shadow-xs">
+                  <Building2 className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Khulna Campus (৪টি নিজস্ব ক্যাম্পাস)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 border border-amber-500/30 text-amber-300 font-semibold shadow-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>কারিগরি শিক্ষা বোর্ড কোড: ৩৫২২৭, ৩৫২৩৬, ৩৫২৫৬</span>
+                </div>
+              </div>
 
               {/* Highlighted News Card */}
               <motion.div 
@@ -116,57 +155,66 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
                 </div>
               </motion.div>
 
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
-                দক্ষতা অর্জন করুন, স্বাবলম্বী হোন। আধুনিক কম্পিউটার ল্যাব, অভিজ্ঞ ফ্রিল্যান্সার মেন্টর এবং লাইভ প্রজেক্টের মাধ্যমে অফিস অ্যাপ্লিকেশন, গ্রাফিক্স ডিজাইন, ফুল-স্ট্যাক ওয়েব ও ডিজিটাল মার্কেটিং শিখে দেশি ও আন্তর্জাতিক ক্যারিয়ার নিশ্চিত করুন।
-              </p>
-
               {/* Value Feature Pills with Stagger Hover */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 text-xs sm:text-sm text-slate-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-xs sm:text-sm text-slate-200">
                 <motion.div 
                   whileHover={{ scale: 1.02, x: 2 }}
                   className="flex items-center gap-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80 backdrop-blur-sm"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>১০০% প্র্যাকটিক্যাল প্রজেক্ট ও কম্পিউটার ল্যাব</span>
+                  <span>১০০% প্র্যাকটিক্যাল প্রজেক্ট ও আধুনিক কম্পিউটার ল্যাব</span>
                 </motion.div>
                 <motion.div 
                   whileHover={{ scale: 1.02, x: 2 }}
                   className="flex items-center gap-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80 backdrop-blur-sm"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>লাইফটাইম মেন্টরশিপ ও জব সাপোর্ট</span>
+                  <span>লাইফটাইম মেন্টরশিপ ও ডেডিকেটেড জব সাপোর্ট</span>
                 </motion.div>
                 <motion.div 
                   whileHover={{ scale: 1.02, x: 2 }}
                   className="flex items-center gap-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80 backdrop-blur-sm"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>খুলনায় ৪টি সুসজ্জিত নিজস্ব ক্যাম্পাস</span>
+                  <span>খুলনায় ৪টি নিজস্ব শীতাতপ নিয়ন্ত্রিত ক্যাম্পাস</span>
                 </motion.div>
                 <motion.div 
                   whileHover={{ scale: 1.02, x: 2 }}
                   className="flex items-center gap-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80 backdrop-blur-sm"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>শুক্রবার ব্যতীত প্রতিদিন শিডিউল ক্লাস ও ল্যাব</span>
+                  <span>শুক্রবার ব্যতীত প্রতিদিন সকাল ১০টা - রাত ৮টা পর্যন্ত খোলা</span>
                 </motion.div>
               </div>
             </div>
 
-            {/* Bottom Actions & 8th Branch Notification with Interactive Glassmorphism */}
+            {/* High-Converting Actions: Dual CTAs & Instant Connect */}
             <div className="pt-6 space-y-4">
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                {/* Primary CTA Button */}
+                {/* Primary CTA Button: ব্রাউজ কোর্স সমূহ */}
                 <motion.button
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => onOpenAdmission()}
-                  className="relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white px-6 py-3.5 rounded-2xl text-sm font-bold shadow-xl shadow-rose-900/40 border border-rose-400/30 transition-all group"
+                  onClick={handleBrowseCourses}
+                  id="hero-browse-courses-btn"
+                  className="relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-rose-600 via-rose-500 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white px-6 py-3.5 rounded-2xl text-sm font-extrabold shadow-xl shadow-rose-950/50 border border-rose-400/40 transition-all cursor-pointer group"
                 >
-                  {/* Subtle glass reflection sweep */}
                   <div className="absolute inset-0 w-1/2 bg-white/20 -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-700 pointer-events-none" />
-                  <span>কোর্সে ভর্তি আবেদন করুন</span>
+                  <BookOpen className="w-4 h-4 text-amber-300" />
+                  <span>ব্রাউজ কোর্স সমূহ</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+
+                {/* Secondary CTA Button: ফ্রি কাউন্সিলিং বুক করুন */}
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => onOpenCounseling ? onOpenCounseling() : onOpenAdmission()}
+                  id="hero-free-counseling-btn"
+                  className="relative overflow-hidden inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 hover:from-emerald-600 hover:to-teal-600 text-white px-5 py-3.5 rounded-2xl text-xs sm:text-sm font-bold border border-emerald-400/50 shadow-lg shadow-emerald-950/40 transition-all cursor-pointer"
+                >
+                  <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                  <span>ফ্রি কাউন্সিলিং বুক করুন</span>
                 </motion.button>
 
                 {/* Glassmorphism WhatsApp Button */}
@@ -174,10 +222,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={openWhatsApp}
-                  className="inline-flex items-center justify-center gap-2 bg-emerald-800/80 hover:bg-emerald-700/90 text-white px-5 py-3.5 rounded-2xl text-xs sm:text-sm font-bold border border-emerald-400/40 backdrop-blur-md shadow-lg shadow-emerald-950/40 transition-all"
+                  id="hero-whatsapp-btn"
+                  className="inline-flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-700/90 text-emerald-300 px-4 py-3.5 rounded-2xl text-xs sm:text-sm font-bold border border-slate-700/80 hover:border-emerald-400/40 backdrop-blur-md shadow-md transition-all cursor-pointer"
                 >
-                  <MessageCircle className="w-4 h-4 text-emerald-300" />
-                  <span>৮ম ব্রাঞ্চ WhatsApp</span>
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />
+                  <span>হোয়াটসঅ্যাপে প্রশ্ন</span>
                 </motion.button>
 
                 {/* Glassmorphism AI Consultation Button */}
@@ -185,7 +234,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={onOpenChat}
-                  className="inline-flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-700/90 text-sky-300 px-4 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold border border-slate-700/80 hover:border-sky-400/40 backdrop-blur-md transition-all shadow-md"
+                  id="hero-ai-chat-btn"
+                  className="inline-flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-700/90 text-sky-300 px-4 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold border border-slate-700/80 hover:border-sky-400/40 backdrop-blur-md transition-all shadow-md cursor-pointer"
                 >
                   <Send className="w-4 h-4 text-sky-400" />
                   <span>এআই পরামর্শ</span>

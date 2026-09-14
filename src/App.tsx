@@ -13,6 +13,7 @@ import { ChatbotModal } from './components/ChatbotModal';
 import { AdmissionModal } from './components/AdmissionModal';
 import { AuthModal } from './components/AuthModal';
 import { FloatingWhatsAppWidget } from './components/FloatingWhatsAppWidget';
+import { FreeCounselingModal } from './components/FreeCounselingModal';
 
 // Reusable Section Animation Wrapper for smooth scroll reveal
 const SectionScrollWrapper: React.FC<{ children: React.ReactNode; id?: string }> = ({ children, id }) => (
@@ -30,6 +31,7 @@ const SectionScrollWrapper: React.FC<{ children: React.ReactNode; id?: string }>
 export default function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
+  const [isCounselingOpen, setIsCounselingOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [admissionCourseId, setAdmissionCourseId] = useState<string | undefined>(undefined);
   const [selectedCourseCategory, setSelectedCourseCategory] = useState<string>('all');
@@ -81,6 +83,7 @@ export default function App() {
       {/* 3. Main Hero Showcase Section with 3D Model & Interactive Canvas Particles */}
       <Hero
         onOpenAdmission={() => handleOpenAdmission()}
+        onOpenCounseling={() => setIsCounselingOpen(true)}
         onOpenChat={() => setIsChatOpen(true)}
       />
 
@@ -146,7 +149,13 @@ export default function App() {
         initialCourseId={admissionCourseId}
       />
 
-      {/* 14. Student Authentication / Login & Sign Up Modal */}
+      {/* 14. Free Career Counseling Modal */}
+      <FreeCounselingModal
+        isOpen={isCounselingOpen}
+        onClose={() => setIsCounselingOpen(false)}
+      />
+
+      {/* 15. Student Authentication / Login & Sign Up Modal */}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}

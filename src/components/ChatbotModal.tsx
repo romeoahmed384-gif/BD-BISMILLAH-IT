@@ -176,8 +176,8 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
 
   return (
     <>
-      {/* 1. Floating Chatbot Trigger Icon at Bottom-Right */}
-      <div className="fixed bottom-6 right-6 z-40 select-none">
+      {/* 1. Floating Chatbot Trigger Icon (Stacked above WhatsApp at Bottom-Right) */}
+      <div className="fixed bottom-22 right-6 z-40 select-none">
         <motion.button
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.94 }}

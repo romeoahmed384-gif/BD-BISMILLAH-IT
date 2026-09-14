@@ -19,16 +19,17 @@ import {
 
 export const FloatingWhatsAppWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState('অফিস অ্যাপ্লিকেশন ও ৪০% ছাড় সম্পর্কে জানতে চাই');
+  const defaultPrompt = 'হ্যালো, আমি বিডি বিসমিল্লাহ আইটি-র কোর্স সম্পর্কে বিস্তারিত জানতে চাই।';
+  const [selectedTopic, setSelectedTopic] = useState(defaultPrompt);
 
   const handleOpenWhatsApp = (customText?: string) => {
-    const text = encodeURIComponent(customText || selectedTopic || 'আসসালামু আলাইকুম! বিডি বিসমিল্লাহ আইটি সেন্টারের কোর্স ও ভর্তি সম্পর্কে জানতে চাই।');
+    const text = encodeURIComponent(customText || selectedTopic || defaultPrompt);
     window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
     setIsOpen(false);
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-40 select-none">
+    <div className="fixed bottom-6 right-6 z-40 select-none flex flex-col items-end">
       
       {/* Quick WhatsApp Chat Popup Card */}
       <AnimatePresence>
@@ -69,7 +70,7 @@ export const FloatingWhatsAppWidget: React.FC = () => {
                   আসসালামু আলাইকুম! 👋
                 </p>
                 <p className="text-[11px] leading-relaxed text-slate-400">
-                  খুলনার ৪টি ক্যাম্পাসে ভর্তি ও স্কলারশিপের বিষয়ে আমাদের প্রতিনিধির সাথে এখনই সরাসরি হোয়াটসঅ্যাপে কথা বলুন।
+                  খুলনার ৪টি ক্যাম্পাসে ভর্তি, অফিশিয়াল কোর্স ও স্কলারশিপের বিষয়ে জানতে এখনই সরাসরি হোয়াটসঅ্যাপে চ্যাট করুন।
                 </p>
               </div>
 
@@ -78,9 +79,9 @@ export const FloatingWhatsAppWidget: React.FC = () => {
                 <span className="text-[11px] font-bold text-slate-400 block">কী বিষয়ে জানতে চান?</span>
                 <div className="space-y-1">
                   {[
-                    'অফিস অ্যাপ্লিকেশন ও ৪০% ছাড় সম্পর্কে জানতে চাই',
-                    '৮ম ব্রাঞ্চ (বয়রা মডেল) ও ল্যাব ভিজিট করতে চাই',
-                    'ফ্রি ক্যারিয়ার কাউন্সেলিং নিতে চাই'
+                    'হ্যালো, আমি বিডি বিসমিল্লাহ আইটি-র কোর্স সম্পর্কে বিস্তারিত জানতে চাই।',
+                    'অফিস অ্যাপ্লিকেশন কোর্সে ৪০% ছাড় ও ব্যাচ শিডিউল জানতে চাই',
+                    '৮ম ব্রাঞ্চ (বয়রা মডেল) ভিজিট ও সরাসরি কাউন্সেলিং'
                   ].map((topic, i) => (
                     <button
                       key={i}
@@ -88,8 +89,8 @@ export const FloatingWhatsAppWidget: React.FC = () => {
                       onClick={() => handleOpenWhatsApp(topic)}
                       className="w-full text-left p-2 rounded-xl bg-slate-900 hover:bg-emerald-950/60 hover:border-emerald-500/50 border border-slate-800 text-slate-300 hover:text-white transition-all text-[11px] flex items-center justify-between group cursor-pointer"
                     >
-                      <span>{topic}</span>
-                      <Send className="w-3 h-3 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <span className="line-clamp-1">{topic}</span>
+                      <Send className="w-3 h-3 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
                     </button>
                   ))}
                 </div>
@@ -102,7 +103,7 @@ export const FloatingWhatsAppWidget: React.FC = () => {
                   <a href={`tel:${EIGHTH_BRANCH_PHONE}`} className="font-mono text-sky-400 hover:underline">{EIGHTH_BRANCH_PHONE}</a>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>৪র্থ ব্রাঞ্চ WhatsApp:</span>
+                  <span>WhatsApp নম্বর:</span>
                   <span className="font-mono text-emerald-400">{FOURTH_BRANCH_WHATSAPP_DISPLAY}</span>
                 </div>
               </div>
@@ -110,11 +111,11 @@ export const FloatingWhatsAppWidget: React.FC = () => {
               {/* Start Chat Button */}
               <button
                 type="button"
-                onClick={() => handleOpenWhatsApp()}
+                onClick={() => handleOpenWhatsApp(defaultPrompt)}
                 className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/50 transition-all cursor-pointer mt-2"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
-                <span>WhatsApp এ চ্যাট শুরু করুন</span>
+                <span>WhatsApp এ মেসেজ পাঠান</span>
               </button>
             </div>
           </motion.div>

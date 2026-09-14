@@ -182,33 +182,48 @@ export const SuccessStories: React.FC = () => {
                 >
                   {/* Glowing top badge & star ratings */}
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-1 text-amber-400">
-                        {[...Array(testi.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-current text-amber-400" />
-                        ))}
-                        <span className="text-xs font-bold text-amber-300 ml-1.5 font-['Plus_Jakarta_Sans',sans-serif]">
-                          {testi.rating}.0
+                    <div className="flex items-center justify-between mb-3.5">
+                      <div className="flex items-center gap-1.5 text-amber-400">
+                        <div className="flex items-center gap-0.5">
+                          {[...Array(testi.rating || 5)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          ))}
+                        </div>
+                        <span className="text-xs font-black text-amber-300 ml-1 font-['Plus_Jakarta_Sans',sans-serif]">
+                          ৫ / ৫ (5.0)
                         </span>
                       </div>
 
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
-                        <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                        <span>ভেরিফায়েড শিক্ষার্থী</span>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 shadow-xs">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>ভেরিফাইড শিক্ষার্থী</span>
                       </span>
                     </div>
 
+                    {/* Completed Course Tag & Workplace Badge */}
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-500/30">
+                        কোর্স: {testi.course}
+                      </span>
+                      {testi.placedCompany && (
+                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-lg bg-sky-950/60 text-sky-300 border border-sky-500/30 flex items-center gap-1">
+                          <Briefcase className="w-3 h-3 text-sky-400" />
+                          <span>{testi.placedCompany}</span>
+                        </span>
+                      )}
+                    </div>
+
                     {/* Review Quote text */}
-                    <div className="relative mb-5">
-                      <Quote className="w-7 h-7 text-slate-800 absolute -top-2 -left-1 pointer-events-none" />
-                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed italic relative z-10 pl-2">
+                    <div className="relative mb-5 bg-slate-950/50 p-3 rounded-2xl border border-slate-800/80">
+                      <Quote className="w-6 h-6 text-slate-700/80 absolute -top-2.5 -left-1 pointer-events-none" />
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed italic relative z-10 pl-2">
                         "{testi.comment}"
                       </p>
                     </div>
                   </div>
 
                   {/* Student Profile Card Footer */}
-                  <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-600/30 to-amber-500/30 border border-rose-500/40 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md overflow-hidden">
                         {testi.avatar ? (
@@ -226,16 +241,15 @@ export const SuccessStories: React.FC = () => {
                       <div>
                         <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
                           {testi.name}
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                         </h4>
-                        <p className="text-xs text-rose-400 font-semibold">{testi.course}</p>
+                        <p className="text-xs text-slate-400 font-medium">{testi.role}</p>
                       </div>
                     </div>
 
-                    {testi.placedCompany && (
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-slate-950 text-slate-300 border border-slate-800 whitespace-nowrap text-right shrink-0">
-                        {testi.placedCompany}
-                      </span>
-                    )}
+                    <span className="text-[10px] font-bold px-2 py-1 rounded-xl bg-slate-950 text-emerald-400 border border-emerald-500/30 whitespace-nowrap text-right shrink-0 font-['Plus_Jakarta_Sans',sans-serif]">
+                      ★ সফল গ্র্যাজুয়েট
+                    </span>
                   </div>
                 </motion.div>
               ))}

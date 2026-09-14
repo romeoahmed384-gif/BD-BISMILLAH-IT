@@ -213,6 +213,19 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
+// SEO Routes: sitemap.xml and robots.txt
+app.get("/sitemap.xml", (req, res) => {
+  const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+  res.type("application/xml");
+  res.sendFile(sitemapPath);
+});
+
+app.get("/robots.txt", (req, res) => {
+  const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+  res.type("text/plain");
+  res.sendFile(robotsPath);
+});
+
 // Start the Express server with Vite middleware
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
