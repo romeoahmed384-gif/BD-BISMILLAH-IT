@@ -79,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full">
-      {/* 0. Breaking News Highlight: 40% Discount on any course + Board Registration Fees Free until 10th */}
+      {/* 0. Breaking News Highlight: Special 40% Discount ONLY on Office Application */}
       <div className="bg-gradient-to-r from-rose-700 via-red-600 to-amber-600 text-white py-2 px-3 sm:px-4 border-b border-rose-500/50 shadow-md relative z-20 overflow-hidden">
         {/* Shimmer sweep animation */}
         <motion.div
@@ -92,22 +92,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-2 flex-wrap justify-center md:justify-start text-center md:text-left">
             <span className="inline-flex items-center gap-1 bg-white text-rose-700 font-black px-2.5 py-0.5 rounded-full text-[11px] shadow-sm tracking-wide shrink-0 animate-pulse">
               <Flame className="w-3.5 h-3.5 text-rose-600 fill-rose-600" />
-              জরুরি অফার সংবাদ
+              স্পেশাল অফার
             </span>
             <p className="text-white font-semibold text-xs sm:text-sm leading-tight">
-              আমাদের যে কোনো কোর্সের ওপর চলছে <span className="font-black text-yellow-200 bg-black/20 px-1.5 py-0.5 rounded border border-yellow-300/30">সরাসরি ৪০% ডিসকাউন্ট</span> এবং সাথে <span className="font-black text-emerald-200 bg-emerald-950/70 px-1.5 py-0.5 rounded border border-emerald-400/40">বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি</span>!
+              বর্তমানে শুধুমাত্র <span className="font-black text-yellow-200 bg-black/20 px-1.5 py-0.5 rounded border border-yellow-300/30">অফিস অ্যাপ্লিকেশন (Office Application)</span> কোর্সের ওপর চলছে সরাসরি <span className="font-black text-yellow-200 bg-black/20 px-1.5 py-0.5 rounded border border-yellow-300/30">৪০% ডিসকাউন্ট</span>!
             </p>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             <span className="inline-flex items-center gap-1.5 bg-black/30 text-yellow-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-yellow-400/40 backdrop-blur-xs">
               <Clock className="w-3 h-3 text-yellow-300 animate-spin" style={{ animationDuration: '9s' }} />
-              <span>অফার চলবে আগামী ১০ তারিখ অবধি</span>
+              <span>সীমিত সময়ের অফার</span>
             </span>
             <motion.button
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onOpenAdmission()}
+              onClick={() => onOpenAdmission('office-application-3m')}
               className="bg-white hover:bg-yellow-50 text-rose-700 font-black text-xs px-3 py-1 rounded-full shadow-sm border border-white/60 transition-all inline-flex items-center gap-1 cursor-pointer"
             >
               <span>ভর্তি আবেদন</span>

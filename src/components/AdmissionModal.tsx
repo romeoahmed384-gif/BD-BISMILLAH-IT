@@ -179,7 +179,7 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
 
           <div className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full mb-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>🔥 বিশেষ অফার: যেকোনো কোর্সে ৪০% ছাড় + বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি (১০ তারিখ পর্যন্ত)</span>
+            <span>🔥 স্পেশাল অফার: শুধুমাত্র অফিস অ্যাপ্লিকেশন কোর্সে সরাসরি ৪০% ছাড়!</span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black text-white">
@@ -205,31 +205,46 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                   onChange={(e) => setSelectedCourseId(e.target.value)}
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-white focus:outline-none focus:border-rose-500 shadow-xs"
                 >
-                  {COURSES_DATA.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.serialNo}. {c.title} ({c.duration}) — এককালীন: ৳{c.discountFee.toLocaleString()} (নিয়মিত: ৳{c.regularFee.toLocaleString()})
-                    </option>
-                  ))}
+                  {COURSES_DATA.map((c) => {
+                    const isOffice = c.category === 'office' || c.id.startsWith('office-application');
+                    return (
+                      <option key={c.id} value={c.id}>
+                        {c.serialNo}. {c.title} ({c.duration}) — {isOffice ? `৪০% ছাড়ে: ৳${c.discountFee.toLocaleString()}` : `এককালীন: ৳${c.discountFee.toLocaleString()}`} (নিয়মিত: ৳{c.regularFee.toLocaleString()})
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
               {/* Course Fee Summary Pill */}
               <div className="bg-slate-950/80 border border-rose-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span className="text-xs text-rose-400 block font-medium">অফার অনুযায়ী কোর্স ফি:</span>
+                  <span className="text-xs text-rose-400 block font-medium">
+                    {currentCourse.category === 'office' || currentCourse.id.startsWith('office-application')
+                      ? '৪০% স্পেশাল ছাড়ে কোর্স ফি:'
+                      : 'কোর্স ফি (এককালীন পরিশোধযোগ্য):'}
+                  </span>
                   <div className="flex items-baseline gap-2">
                     <strong className="text-xl font-black text-rose-400 font-['Plus_Jakarta_Sans',sans-serif]">
                       ৳{currentCourse.discountFee.toLocaleString()}
                     </strong>
                     <span className="text-xs text-slate-500 line-through">৳{currentCourse.regularFee.toLocaleString()}</span>
-                    <span className="bg-rose-600/30 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">৪০% অফ</span>
+                    {(currentCourse.category === 'office' || currentCourse.id.startsWith('office-application')) && (
+                      <span className="bg-rose-600/30 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">৪০% অফ</span>
+                    )}
                   </div>
                 </div>
                 <div className="sm:text-right space-y-0.5">
-                  <span className="text-[11px] text-emerald-400 font-bold block bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-md">
-                    ✓ বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি!
-                  </span>
-                  <span className="text-[11px] text-slate-400 block">সময়কাল: {currentCourse.duration} • মেয়াদ: ১০ তারিখ পর্যন্ত</span>
+                  {(currentCourse.category === 'office' || currentCourse.id.startsWith('office-application')) ? (
+                    <span className="text-[11px] text-amber-300 font-bold block bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-md">
+                      ✓ অফিস অ্যাপ্লিকেশনে ৪০% ছাড় প্রযোজ্য
+                    </span>
+                  ) : (
+                    <span className="text-[11px] text-emerald-400 font-bold block bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-md">
+                      ✓ প্র্যাকটিক্যাল ল্যাব ও সার্বক্ষণিক মেন্টর
+                    </span>
+                  )}
+                  <span className="text-[11px] text-slate-400 block">সময়কাল: {currentCourse.duration} • ফ্লেক্সিবল শিফট</span>
                 </div>
               </div>
 
@@ -456,7 +471,9 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">কোর্স ফি:</span>
-                  <strong className="text-emerald-400 font-bold">৳{submittedSummary?.discountFee?.toLocaleString()} (৪০% বিশেষ ডিসকাউন্ট)</strong>
+                  <strong className="text-emerald-400 font-bold">
+                    ৳{submittedSummary?.discountFee?.toLocaleString()}{submittedSummary?.courseTitle?.includes('অফিস') ? ' (৪০% স্পেশাল ডিসকাউন্ট)' : ' (এককালীন পরিশোধ ফি)'}
+                  </strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span className="text-slate-400">নির্বাচিত ক্যাম্পাস:</span>

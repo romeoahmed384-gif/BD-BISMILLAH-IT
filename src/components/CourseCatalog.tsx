@@ -118,7 +118,7 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
           </div>
         </motion.div>
 
-        {/* Mega News / Discount Highlight Banner: 40% OFF + Board Reg Fee FREE till 10th */}
+        {/* Mega News / Discount Highlight Banner: 40% OFF exclusively on Office Application */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -133,20 +133,20 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="inline-flex items-center gap-1 bg-rose-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm animate-pulse">
                   <Flame className="w-3.5 h-3.5 fill-white" />
-                  বিশেষ অফার সংবাদ
+                  স্পেশাল অফার সংবাদ
                 </span>
                 <span className="inline-flex items-center gap-1 bg-amber-950/80 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full">
                   <Clock className="w-3.5 h-3.5 text-amber-400" />
-                  অফারের শেষ সময়: আগামী ১০ তারিখ পর্যন্ত
+                  অফিস অ্যাপ্লিকেশন স্পেশাল অফার
                 </span>
               </div>
 
               <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
-                যেকোনো কোর্সে সরাসরি <span className="text-yellow-300 font-extrabold underline decoration-yellow-400 decoration-2">৪০% ডিসকাউন্ট</span> + কারিগরি শিক্ষা <span className="text-emerald-300 font-extrabold">বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি!</span>
+                শুধুমাত্র অফিস অ্যাপ্লিকেশনে সরাসরি <span className="text-yellow-300 font-extrabold underline decoration-yellow-400 decoration-2">৪০% স্পেশাল ডিসকাউন্ট</span> চলছে!
               </h3>
               
               <p className="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-                আমাদের সকল প্রফেশনাল ও ডিপ্লোমা কোর্সে সীমিত সময়ের এই বিশেষ সুযোগ গ্রহণ করুন। ভর্তি হলেই পাবেন অভিজ্ঞ ফ্রিল্যান্সারদের গাইডলাইন, আধুনিক ল্যাব এক্সেস এবং সম্পূর্ণ ফ্রি বাংলাদেশ কারিগরি শিক্ষা বোর্ড পরীক্ষার রেজিস্ট্রেশন।
+                সরকারি ও বেসরকারি চাকরি এবং ফ্রিল্যান্সিং ডেটা এন্ট্রি ক্যারিয়ারে এগিয়ে থাকতে আমাদের অফিস অ্যাপ্লিকেশন (Office Application) কোর্সে ভর্তি হোন সরাসরি ৪০% ছাড়ে! অভিজ্ঞ ট্রেইনারের তত্ত্বাবধানে শতভাগ প্র্যাকটিক্যাল কম্পিউটার ল্যাব ক্লাস ও কারিগরি শিক্ষা বোর্ডের চূড়ান্ত প্রস্তুতি।
               </p>
             </div>
 
@@ -154,7 +154,7 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
               <motion.button
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.96 }}
-                onClick={() => onOpenAdmission()}
+                onClick={() => onOpenAdmission('office-application-3m')}
                 className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-rose-900/40 border border-rose-400/40 transition-all flex items-center justify-center gap-2"
               >
                 <span>অফারে ভর্তি আবেদন</span>
@@ -165,7 +165,7 @@ export const CourseCatalog: React.FC<CourseCatalogProps> = ({
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => {
-                  const text = encodeURIComponent('আসসালামু আলাইকুম, আমি বিডি বিসমিল্লাহ আইটি সেন্টারের যে কোনো কোর্সের ৪০% ছাড় ও ফ্রি বোর্ড রেজিস্ট্রেশন ফি অফার (১০ তারিখ পর্যন্ত) সম্পর্কে জানতে চাই।');
+                  const text = encodeURIComponent('আসসালামু আলাইকুম, আমি বিডি বিসমিল্লাহ আইটি সেন্টারের অফিস অ্যাপ্লিকেশন কোর্সের ৪০% ছাড় অফার সম্পর্কে বিস্তারিত জানতে চাই।');
                   window.open(`https://wa.me/${FOURTH_BRANCH_WHATSAPP}?text=${text}`, '_blank');
                 }}
                 className="w-full sm:w-auto px-4 py-3 rounded-2xl bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm border border-emerald-500/40 transition-all flex items-center justify-center gap-2"

@@ -69,12 +69,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
               {/* Top Banner Tag */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                onClick={() => onOpenAdmission()}
+                onClick={() => onOpenAdmission('office-application-3m')}
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/70 border border-rose-500/40 text-rose-300 text-xs sm:text-sm font-semibold shadow-inner cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-amber-400 animate-spin" style={{ animationDuration: '6s' }} />
-                <span>মেগা অফার: যেকোনো কোর্সে ৪০% ছাড় + ফ্রি বোর্ড রেজিস্ট্রেশন</span>
-                <span className="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">১০ তারিখ পর্যন্ত</span>
+                <span>স্পেশাল অফার: শুধুমাত্র অফিস অ্যাপ্লিকেশনে সরাসরি ৪০% ছাড়!</span>
+                <span className="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">সীমিত আসন</span>
               </motion.div>
 
               {/* Display Title */}
@@ -88,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
               {/* Highlighted News Card */}
               <motion.div 
                 whileHover={{ scale: 1.01 }}
-                onClick={() => onOpenAdmission()}
+                onClick={() => onOpenAdmission('office-application-3m')}
                 className="cursor-pointer p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-rose-950/90 via-red-950/80 to-amber-950/90 border-2 border-rose-500/50 shadow-xl shadow-rose-950/40 backdrop-blur-md relative overflow-hidden group"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-amber-500/20 transition-colors" />
@@ -99,14 +99,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdmission, onOpenChat, onPlayV
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span className="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
-                        জরুরি অফার সংবাদ
+                        স্পেশাল অফার সংবাদ
                       </span>
                       <span className="text-amber-300 text-xs font-bold flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-amber-300" /> অফার চলবে ১০ তারিখ পর্যন্ত
+                        <Clock className="w-3 h-3 text-amber-300" /> সীমিত সময়ের জন্য চলমান
                       </span>
                     </div>
                     <p className="text-white text-xs sm:text-sm font-medium leading-snug">
-                      আমাদের যে কোনো কোর্সের ওপর চলছে সরাসরি <strong className="text-yellow-300 font-extrabold underline decoration-yellow-400">৪০% ডিসকাউন্ট</strong> এবং সাথে <strong className="text-emerald-300 font-extrabold">বোর্ড রেজিস্ট্রেশন ফি সম্পূর্ণ ফ্রি</strong>!
+                      বর্তমানে শুধুমাত্র <strong className="text-yellow-300 font-extrabold underline decoration-yellow-400">অফিস অ্যাপ্লিকেশন (Office Application)</strong> কোর্সের ওপর চলছে সরাসরি <strong className="text-yellow-300 font-extrabold underline decoration-yellow-400">৪০% স্পেশাল ডিসকাউন্ট</strong>! দ্রুত ভর্তি হয়ে আসন নিশ্চিত করুন।
                     </p>
                   </div>
                   <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-amber-300 group-hover:translate-x-1 transition-transform shrink-0">

@@ -470,7 +470,7 @@ export const ContactAndBranches: React.FC<ContactAndBranchesProps> = ({
                         rows={3}
                         value={contactMessage}
                         onChange={(e) => setContactMessage(e.target.value)}
-                        placeholder="ভর্তি, ব্যাচ টাইম বা ৪০% অফার সংক্রান্ত প্রশ্ন লিখুন..."
+                        placeholder="ভর্তি, ব্যাচ শিডিউল বা অফিস অ্যাপ্লিকেশনে ৪০% অফার সংক্রান্ত প্রশ্ন লিখুন..."
                         className="w-full bg-slate-950 border border-slate-700 focus:border-rose-500 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none transition-colors"
                       ></textarea>
                     </div>

@@ -19,7 +19,7 @@ import {
 
 export const FloatingWhatsAppWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState('কোর্স ভর্তি ও ৪০% ডিসকাউন্ট সম্পর্কে জানতে চাই');
+  const [selectedTopic, setSelectedTopic] = useState('অফিস অ্যাপ্লিকেশন ও ৪০% ছাড় সম্পর্কে জানতে চাই');
 
   const handleOpenWhatsApp = (customText?: string) => {
     const text = encodeURIComponent(customText || selectedTopic || 'আসসালামু আলাইকুম! বিডি বিসমিল্লাহ আইটি সেন্টারের কোর্স ও ভর্তি সম্পর্কে জানতে চাই।');
@@ -78,7 +78,7 @@ export const FloatingWhatsAppWidget: React.FC = () => {
                 <span className="text-[11px] font-bold text-slate-400 block">কী বিষয়ে জানতে চান?</span>
                 <div className="space-y-1">
                   {[
-                    'কোর্স ভর্তি ও ৪০% ডিসকাউন্ট সম্পর্কে জানতে চাই',
+                    'অফিস অ্যাপ্লিকেশন ও ৪০% ছাড় সম্পর্কে জানতে চাই',
                     '৮ম ব্রাঞ্চ (বয়রা মডেল) ও ল্যাব ভিজিট করতে চাই',
                     'ফ্রি ক্যারিয়ার কাউন্সেলিং নিতে চাই'
                   ].map((topic, i) => (
